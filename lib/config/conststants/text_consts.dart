@@ -4,5 +4,5 @@ class TextConsts{
   static const String seeAll = "مشاهده همه";
   static const String newestOrders = "جدید ترین ها";
   static const String trendings =  "محبوب ترین ها";
-  static const String amazingOffers = "پیشنهاد های شگفت انگیز";
+  static const String amazingOffers = "پیشنهاد های\nشگفت انگیز";
 }

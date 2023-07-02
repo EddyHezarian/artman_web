@@ -1,12 +1,16 @@
-import 'package:artman_web/config/conststants/icon_urls.dart';
+
 import 'package:artman_web/config/conststants/meassurments.dart';
 import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
-import 'package:artman_web/config/widgets/bottom_nav.dart';
+import 'package:artman_web/config/widgets/search_box.dart';
+import 'package:artman_web/features/home_feature/widgets/category_shortcut_card.dart';
+import 'package:artman_web/features/home_feature/widgets/event_card.dart';
+import 'package:artman_web/features/home_feature/widgets/header_banner_widgets.dart';
+import 'package:artman_web/features/home_feature/widgets/trend_card.dart';
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
-
+import 'package:slide_countdown/slide_countdown.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -20,113 +24,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorPallet.background,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
             //! search container  ------------------------------------------------
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              margin: const EdgeInsets.only(right: 40 , top:  20 , left: 40),
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.grey.shade300
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(IconsUrl.search,height: 30,width: 30,),
-                    const SizedBox(width: Meassurments.crossSpaceinBox,),
-                      Expanded(
-                      child: TextField(
-                        decoration: InputDecoration.collapsed(
-                          hintText: TextConsts.searchBox,
-                          hintStyle: TextStyles.hint ),
-                      ),
-                    )
-                  ],
-                ),
-            
-            ),
+            searchBox(context),
             const SizedBox(height: 25,),
             //! baner -------------------------------------------------
-            BannerCarousel(
-              //Todo ---> convert to custome banner maker with clipRRect
-              //Todo---> convert to widget file into home_ feature dierctory !!!
-              banners: BannerImages.listBanners,
-              customizedIndicators: const IndicatorModel.animation(
-                  width: 20, 
-                  height: 5, 
-                  spaceBetween: 2, 
-                  widthAnimation: 50),
-              height: 170,
-              activeColor: const Color.fromARGB(255, 255, 20, 20),
-              disableColor: Colors.white,
-              animation: true,  
-              borderRadius: 20,
-              onTap: (id) => print(id),
-              width: 500,
-              indicatorBottom: false,
-            ),
+            headerBanner(context),
             //! category icons-------------------------------
             const SizedBox(height: 19,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              Column(
-                children: [
-                  Container(
-                    width: 60 ,
-                    height: 60 ,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),color: Colors.amber,
-                    ),
-                  child: const Center(child: Icon(Icons.laptop)
-                  ),
-                  ),
-                  Text("لپتاپ" , style: TextStyles.categoryLabel)//Todo test 
-                ],
-              ),            
-              Column(
-                children: [
-                  Container(
-                    width: 60 ,
-                    height: 60 ,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),color: Colors.red,
-                    ),
-                  child: const Center(child: Icon(Icons.phone)),
-                  ),
-                  Text("موبایل",style: TextStyles.categoryLabel,)//Todo test 
-                ],
-              ),            
-              Column(
-                children: [
-                  Container(
-                    width: 60 ,
-                    height: 60 ,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),color: Colors.blue,
-                    ),
-                  child: const Center(child: Icon(Icons.edit)),
-                  ),
-                  Text("تبلت",style: TextStyles.categoryLabel,)//Todo test 
-                ],
-              ),            
-              Column(
-                children: [
-                  Container(
-                    width: 60 ,
-                    height: 60 ,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),color: Colors.purple,
-                    ),
-                  child: const Center(child: Icon(Icons.headphones)),
-                  ),
-                  Text("جانبی",style: TextStyles.categoryLabel,)//Todo test 
-                ],
-              ),            
+              categoryShortcutCard(Colors.amber, "لپتاپ",const Icon(Icons.laptop)),
+              categoryShortcutCard(Colors.red, "موبایل",const Icon(Icons.phone)),
+              categoryShortcutCard(Colors.green, "تبلت",const Icon(Icons.edit)),
+              categoryShortcutCard(Colors.purple, "جانبی",const Icon(Icons.headphones)),
             ],
             ),
             //! amazing offer baneers --------------------------------
@@ -144,14 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
               child: Column(children: [
                 //! texts
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [  
-                    //! title 
-                    Text(TextConsts.amazingOffers , style: TextStyles.offersTitle ,),
-                    //! see all
-                    Text(TextConsts.seeAll , style: TextStyles.seeAll,)
-                  ],  
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 11),
+                  child: Align(alignment: Alignment.centerLeft, child: Text(TextConsts.seeAll , style: TextStyles.seeAll,)),
                 ) ,
                 //!cards 
                 Expanded(
@@ -161,59 +72,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context , index ){
                       return 
+                      index == 0 ? 
                       Container(
-                        margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
-                    width: 160,
-                    decoration: BoxDecoration(
-                      color: ColorPallet.background , 
-                      borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
-                      child: Column(
-                        children: [
-                           //! image 
-                            Container(
-                            margin: const EdgeInsets.all(8),
-                            width:130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15), 
-                              image:const DecorationImage(image: AssetImage("assets/icons/mob.png"),fit: BoxFit.cover )
-                              ),
-                          ),
-                            //! title
-                            const Text("ipone SE 2020"),
-                            //! price
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                              //! bargen banner 
-                              Container(
-                                margin: const EdgeInsets.only(right: 10 , top: 10),
-                                width: 50,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: ColorPallet.secondary, 
-                                  borderRadius: BorderRadius.circular(8),
-                                  ),
-                                child: Center(child: Text("24%", style: TextStyles.cardBargen,)),
-                              ),
-                              //! price value
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                child: const Column(children: [
-                                  Text("19000"),
-                                  Text(
-                                    "222",style: TextStyle(
-                                      fontSize: 14,
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey))
-                                ],),
-                              )
-                              ],
-                            )
-                        ],
+                        width: 160,
+                        color: Colors.transparent,
+                        child:Column(
+                          children: [  
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30 , top: 30),
+                        child: Text(textAlign: TextAlign.center,  TextConsts.amazingOffers , style: TextStyles.offersTitle ,),
                       ),
-                  );
-                    } ),
+                      SlideCountdownSeparated(
+                          decoration: BoxDecoration(color: ColorPallet.background ,borderRadius: BorderRadius.circular(8)),
+                          duration: const Duration(days: 2),
+                          height: 40,
+                          width: 27,
+                          curve: Curves.bounceInOut,
+                          textStyle: const TextStyle(
+                            color: Colors.black , 
+                            fontFamily: "sens" , 
+                            fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                        ) :
+                      eventCard();
+                    }
+                    ),
                 )
               ],)
             ),
@@ -232,7 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(TextConsts.newestOrders , style: TextStyles.offersTitle ,),
                     //! see all
                     Container(
-                      width: 70,
+                      margin:    const EdgeInsets.all(7),
+                      width:90,
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -247,61 +132,70 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context , index ){
-                      return Container(
-                        margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
-                    width: 160,
-                    decoration: BoxDecoration(
-                      color: ColorPallet.background , 
-                      borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
-                      child: Column(
-                        children: [
-                           //! image 
-                            Container(
-                            margin: const EdgeInsets.all(8),
-                            width:130,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15), 
-                              image:const DecorationImage(image: AssetImage("assets/icons/mob.png"),fit: BoxFit.cover )
-                              ),
-                          ),
-                            //! title
-                            const Text("ipone SE 2020"),
-                            //! price
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                              //! bargen banner 
-                              Container(
-                                margin: const EdgeInsets.only(right: 10 , top: 10),
-                                width: 50,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: ColorPallet.secondary, 
-                                  borderRadius: BorderRadius.circular(8),
-                                  ),
-                                child: Center(child: Text("24%", style: TextStyles.cardBargen,)),
-                              ),
-                              //! price value
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                child: const Column(children: [
-                                  Text("19000"),
-                                  Text(
-                                    "222",style: TextStyle(
-                                      fontSize: 14,
-                                      decoration: TextDecoration.lineThrough,
-                                      color: Colors.grey))
-                                ],),
-                              )
-                              ],
-                            )
-                        ],
-                      ),
-                  );
+                      return trendCard(index);
                     } ),
                 )
               ],)
+            ),
+            //! introduction container ----------------------------------------------------
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: SizedBox(
+               // margin: const EdgeInsets.all(10),
+                height: 320 ,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //! first line
+                      Row(children: [
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          width: 220,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            boxShadow: const [
+                            BoxShadow(color: Color.fromARGB(70, 84, 83, 83) , blurRadius: 2 , spreadRadius: 3)],
+                            image: const DecorationImage(image: NetworkImage("https://selleracademy.digikala.com/wp-content/uploads/2021/11/header-Mask-1-1024x479.jpg",),fit: BoxFit.fill),
+                            
+                            borderRadius: BorderRadius.circular(15)),
+                            ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          width: 100,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            boxShadow: const [BoxShadow(color: Color.fromARGB(70, 84, 83, 83) , blurRadius: 2 , spreadRadius: 3)],
+                            image: const DecorationImage(image: NetworkImage("https://designland.ir/wp-content/uploads/2022/11/1-min-1-1-600x1067.jpg",),fit: BoxFit.fill),
+                            
+                            borderRadius: BorderRadius.circular(15)),
+                            ),
+                      ],),
+                      Row(children: [
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          width: 100,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(image: NetworkImage("https://irantableegh.org/wp-content/uploads/2022/01/Instagram-promotional-teaser-2.png",),fit: BoxFit.fill),
+                            boxShadow: const [BoxShadow(color: Color.fromARGB(70, 84, 83, 83) , blurRadius: 2 , spreadRadius: 3)],
+                            borderRadius: BorderRadius.circular(15)),
+                            ),
+                        Container(
+                          margin: const EdgeInsets.all(5),
+                          width: 220,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxheSidHp1qkR5nQrDOjW7xQqbuimS8ZR70A&usqp=CAU",),fit: BoxFit.fill),
+                            boxShadow: const [BoxShadow(color: Color.fromARGB(70, 84, 83, 83) , blurRadius: 2 , spreadRadius: 3)],
+                            borderRadius: BorderRadius.circular(15)),
+                            ),
+                      ],),
+                    ],
+                  ),
+                ),
+              ),
             ),
             //! terndings ----------------------------------------------------
               Container(
@@ -318,7 +212,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(TextConsts.trendings , style: TextStyles.offersTitle ,),
                     //! see all
                     Container(
-                      width: 70,
+                      margin: const EdgeInsets.all(7),
+                      width: 90,
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -337,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
                     width: 160,
                     decoration: BoxDecoration(
-                      color: ColorPallet.background , 
+                      color: ColorPallet.cards,
                       borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
                       child: Column(
                         children: [
@@ -392,24 +287,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ]
         ,),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){}, 
-          backgroundColor: ColorPallet.secondary,
-          child: Image.asset(IconsUrl.shopping,
-          color: ColorPallet.background , 
-          width: 30 , 
-          
-          ),),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: CustomeBottomNav(controller: controller),
       ),
     );
   }
 }
-
-
-
-
 
 class BannerImages {
   static const String banner1 =
@@ -427,8 +308,6 @@ class BannerImages {
     BannerModel(imagePath: banner4, id: "4"),
   ];
 }
-
-
 
 class Card2 extends StatelessWidget {
   const Card2({super.key});

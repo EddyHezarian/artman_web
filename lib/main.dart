@@ -1,11 +1,29 @@
-import 'package:artman_web/features/home_feature/screen/home_screen.dart';
+import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
+import 'package:artman_web/features/intro_feature/screens/splash_screen.dart';
+import 'package:artman_web/features/intro_feature/splash_cubit/cubit/splash_cubit.dart';
+import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initLocator();
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SplashCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BottomNavCubit(),
+        ),
+        
+      ],
+      child: const MyApp(),
+    )
+  );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -13,14 +31,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
+      localizationsDelegates: const [
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
   ],
-  supportedLocales: [
+  supportedLocales: const [
     Locale('fa'), // English
   ],
+  initialRoute: '/',
+  routes: {},
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -28,8 +48,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-
-      home: const HomeScreen(),
+      home:  const SplashScreen(),
     );
   }
 }
