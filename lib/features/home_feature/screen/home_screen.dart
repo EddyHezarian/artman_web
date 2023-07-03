@@ -39,10 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              categoryShortcutCard(Colors.amber, "لپتاپ",const Icon(Icons.laptop)),
-              categoryShortcutCard(Colors.red, "موبایل",const Icon(Icons.phone)),
-              categoryShortcutCard(Colors.green, "تبلت",const Icon(Icons.edit)),
-              categoryShortcutCard(Colors.purple, "جانبی",const Icon(Icons.headphones)),
+              categoryShortcutCard(Colors.amber, "لپتاپ", Icon(Icons.laptop,color: ColorPallet.background,)),
+              categoryShortcutCard(Colors.red, "موبایل", Icon(Icons.phone,color: ColorPallet.background,)),
+              categoryShortcutCard(Colors.green, "تبلت", Icon(Icons.edit,color: ColorPallet.background,)),
+              categoryShortcutCard(Colors.purple, "جانبی", Icon(Icons.headphones,color: ColorPallet.background,)),
             ],
             ),
             //! amazing offer baneers --------------------------------
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [  
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30 , top: 30),
-                        child: Text(textAlign: TextAlign.center,  TextConsts.amazingOffers , style: TextStyles.offersTitle ,),
+                        child: Image.asset("assets/icons/Amazings.png"),
                       ),
                       SlideCountdownSeparated(
                           decoration: BoxDecoration(color: ColorPallet.background ,borderRadius: BorderRadius.circular(8)),
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             //! terndings ----------------------------------------------------
-              Container(
+            Container(
               padding: const EdgeInsets.all(8),
               margin: const EdgeInsets.only(top: 14,bottom: 14),
               width: double.infinity,
@@ -293,6 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class BannerImages {
+  
   static const String banner1 =
       "https://media.wired.com/photos/63a49538145a571e203e3a7d/master/w_1600%2Cc_limit/asuschromebookflipcx5_GEAR.jpg";
   static const String banner2 =
@@ -308,7 +309,6 @@ class BannerImages {
     BannerModel(imagePath: banner4, id: "4"),
   ];
 }
-
 class Card2 extends StatelessWidget {
   const Card2({super.key});
 

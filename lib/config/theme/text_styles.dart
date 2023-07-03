@@ -44,4 +44,33 @@ fontFamily: "sens",
     fontWeight: FontWeight.w800,
     fontSize: 18,
   );
+
+
+  //! category 
+  static TextStyle titleOfPage = TextStyle(
+    fontFamily: "sens", 
+    color:  ColorPallet.mainTextColor , 
+    fontSize: 20 , 
+    fontWeight: FontWeight.bold
+    );
+    static TextStyle nameOfCategory = TextStyle(
+    fontFamily: "sens", 
+    color:  ColorPallet.mainTextColor , 
+    fontSize: 20 , 
+    fontWeight: FontWeight.bold
+    );   
+  static TextStyle countOfCategory = TextStyle(
+    fontFamily: "sens", 
+    color:  ColorPallet.hintColor , 
+    fontSize: 16 , 
+    fontWeight: FontWeight.w400
+    );  
+  //! favorite
+  static TextStyle nameOfPrudoctList = TextStyle(
+    fontFamily: "sens", 
+    color:  ColorPallet.mainTextColor , 
+    fontSize: 16 , 
+    fontWeight: FontWeight.w700
+    );
+
 }
