@@ -1,4 +1,7 @@
 import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
+import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
+import 'package:artman_web/features/category_feature/screen/category_screen.dart';
+import 'package:artman_web/features/intro_feature/screens/splash_screen.dart';
 import 'package:artman_web/features/intro_feature/splash_cubit/cubit/splash_cubit.dart';
 import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/features/product_list_feature/single_product_screen.dart';
@@ -44,14 +47,14 @@ class MyApp extends StatelessWidget {
   initialRoute: '/',
   routes: {
     
-  },
+          },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home:   const SingleProductScreen(),
+      home:   const SignUpPage(),
     );
   }
 }

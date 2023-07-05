@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 Widget headerBanner(BuildContext context ){
   return 
   BannerCarousel(
-              //Todo ---> convert to custome banner maker with clipRRect
+                  //Todo ---> convert to custome banner maker with clipRRect
               //Todo---> convert to widget file into home_ feature dierctory !!!
 
               //! banner item is hard code ___ no dynamic API yet ! 

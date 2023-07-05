@@ -1,6 +1,8 @@
 
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
+import 'package:artman_web/features/home_feature/screen/home_screen.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +36,30 @@ class SingleProductScreen extends StatelessWidget {
                 ),
                 //! image 
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.width * 0.8,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(image: AssetImage("assets/icons/mob.png"),fit: BoxFit.cover ))
-                  ,),
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(300)),
+                  height: 200,
+                  child:  
+                  Swiper(
+                    
+                    physics: const BouncingScrollPhysics(),
+                    curve: Curves.bounceInOut,
+                    loop: false ,
+                    autoplay: false,
+                    pagination: const SwiperPagination(),
+
+                  itemBuilder: (BuildContext context, int index) {
+                    return Image.network(
+                      banerimg[index],
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  itemCount: 4,
+                  viewportFraction: 0.8,
+                  scale: 0.9,
+                  ),
+                ),
+
                 //! name 
                 Text("میومویمویمویمیومیوم" , style: TextStyles.nameOfPrudoctList, ),
                 //! price and rate 
@@ -265,18 +285,34 @@ class SingleProductScreen extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          child: Row(children: [
-            Container(
-              margin: const EdgeInsets.all(10),
-              width: 140,
-              height: 50,
-              decoration: BoxDecoration(color: ColorPallet.secondary ,borderRadius: BorderRadius.circular(10)),
-              child: const Text("خرید",style: TextStyle(color: Colors.black12)),
-            )
-          ],)
+          elevation: 3,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+              Container(
+                margin: const EdgeInsets.all(10),
+                width: 140,
+                height: 50,
+                decoration: BoxDecoration(color: ColorPallet.secondary ,borderRadius: BorderRadius.circular(10)),
+                child: const Center(child: Text("خرید",style: TextStyle(color: Colors.white ,fontSize: 24 ,fontFamily: "sens",fontWeight: FontWeight.bold))),
+              ),
+              const Text("49000",style: TextStyle(color: Colors.black ,fontSize: 24 ,fontFamily: "sens",fontWeight: FontWeight.bold)),
+            ],),
+          )
           ),
         ),
     );
-      
   }
 }
+
+
+List<String> banerimg  = [
+  
+      "https://media.wired.com/photos/63a49538145a571e203e3a7d/master/w_1600%2Cc_limit/asuschromebookflipcx5_GEAR.jpg",
+      "https://media.wired.com/photos/62755f0e74e0428e36b7f383/master/w_1600%2Cc_limit/Acer-Swift-3x-Gear.jpg",
+ "https://media.product.which.co.uk/prod/images/ar_2to1_900x450/5afeb9dc1a02-mobile-and-sim-dealsadvicerevised.webp",
+      "https://images.macrumors.com/t/JUtpCjCRu4zsypwl_8gRVMguwo0=/800x0/article-new/2022/05/airpods-3-purple.jpg?lossy",
+
+];

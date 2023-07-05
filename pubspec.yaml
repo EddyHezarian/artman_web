@@ -38,7 +38,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
-  google_fonts: ^5.1.0
   banner_carousel: ^1.2.1
   slide_countdown: ^0.6.0
   delayed_widget: ^1.1.2
@@ -51,6 +50,8 @@ dependencies:
   shared_preferences: ^2.2.0
   get_it: ^7.6.0
   expandable: ^5.0.1
+  card_swiper: ^2.0.4
+  woocommerce_api: ^0.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,7 @@
-
-import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
+
 import 'package:artman_web/features/product_list_feature/single_product_screen.dart';
 import 'package:flutter/material.dart';
 
