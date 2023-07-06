@@ -16,6 +16,6 @@ Future<void> initLocator() async{
   locator.registerSingleton<SharedPreferences>(sharedPreferences);
   locator.registerSingleton<PrefsOperator>(PrefsOperator());
   //! customer Api provider
-//locator.registerSingleton<CustomerApiProvider>(CustomerApiProvider());
+locator.registerSingleton<CustomerApiProvider>(CustomerApiProvider());
 
 }

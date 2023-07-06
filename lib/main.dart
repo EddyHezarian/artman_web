@@ -1,6 +1,7 @@
 import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
+import 'package:artman_web/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
-import 'package:artman_web/features/category_feature/screen/category_screen.dart';
+import 'package:artman_web/features/category_feature/presentation/screen/category_screen.dart';
 import 'package:artman_web/features/intro_feature/screens/splash_screen.dart';
 import 'package:artman_web/features/intro_feature/splash_cubit/cubit/splash_cubit.dart';
 import 'package:artman_web/features/main_wrapper.dart';
@@ -15,21 +16,19 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await initLocator();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => SplashCubit(),
-        ),
-        BlocProvider(
-          create: (context) => BottomNavCubit(),
-        ),
-        
-      ],
-      child: const MyApp(),
-    )
-  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => SplashCubit(),
+      ),
+      BlocProvider(
+        create: (context) => BottomNavCubit(),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -37,24 +36,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: const [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: const [
-    Locale('fa'), // English
-  ],
-  initialRoute: '/',
-  routes: {
-    
-          },
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('fa'), // English
+      ],
+      initialRoute: '/',
+      routes: {},
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home:   const SignUpPage(),
+      home: const SplashScreen(),
     );
   }
 }

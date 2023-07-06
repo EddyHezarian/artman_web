@@ -10,5 +10,5 @@ class ColorPallet{
   static Color  iconsColor= const Color.fromARGB(255, 25, 25, 25);
   static Color  mainTextColor= const Color.fromARGB(255, 45, 45, 45); 
   static Color  subTextColor= const Color.fromARGB(255, 255, 255, 255); 
-  static Color  hintColor= const Color.fromARGB(255, 121, 121, 121);
+  static Color  hintColor= const Color.fromARGB(255, 182, 182, 182);
 }

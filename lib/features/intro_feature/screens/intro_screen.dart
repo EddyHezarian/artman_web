@@ -1,3 +1,4 @@
+import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/core/utiles/prefs_operator.dart';
 import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/locator.dart';
@@ -19,7 +20,7 @@ class IntroMainWrapper extends StatelessWidget {
 
     //! register button 
     OnBoardingSlider(
-      finishButtonText: 'Register',
+      finishButtonText: 'ثبت نام',
       onFinish: () {
         //! update shared prefs --> user wouldn't see onboarding pages 
         PrefsOperator prefsOperator = locator<PrefsOperator>();
@@ -29,24 +30,24 @@ class IntroMainWrapper extends StatelessWidget {
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> MainWrapper()
         ), (route) => false);
       },
-      finishButtonStyle: const FinishButtonStyle(
-        backgroundColor: Colors.amber,
+      finishButtonStyle:  FinishButtonStyle(
+        backgroundColor: ColorPallet.secondary,
       ),
       //! skip button 
-      skipTextButton: const Text(
-        'Skip',
+      skipTextButton:  Text(
+        'بعدی',
         style: TextStyle(
           fontSize: 16,
-          color: Colors.amber,
+          color:ColorPallet.secondary,
           fontWeight: FontWeight.w600,
         ),
       ),
       //! trailing
-      trailing: const Text(
-        'Login',
+      trailing:  Text(
+        'ورود',
         style: TextStyle(
           fontSize: 16,
-          color: Colors.amber,
+          color: ColorPallet.secondary,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -59,22 +60,22 @@ class IntroMainWrapper extends StatelessWidget {
         );
       },
       
-      controllerColor: Colors.amber,
+      controllerColor: ColorPallet.secondary,
       totalPage: 3,
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
       //! back grounds 
       background: [
         Image.asset(
-          'assets/icons/fav1.png',
+          'assets/icons/signup_svg.png',
           height: 400,
         ),
         Image.asset(
-        'assets/icons/fav1.png',
+        'assets/icons/login.png',
           height: 400,
         ),
         Image.asset(
-          'assets/icons/fav1.png',
+          'assets/icons/6538623_prev_ui.png',
           height: 400,
         ),
       ],
@@ -86,30 +87,32 @@ class IntroMainWrapper extends StatelessWidget {
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: const Column(
+          child:  Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 480,
               ),
               Text(
-                'On your way...',
+                'همه چی هست',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.amber,
+                  fontFamily: "sens",
+                  color: ColorPallet.mainTextColor,
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
-                'to find the perfect looking Onboarding for your app?',
+                'اینجا همه چیز برای شما فراهم است از جون مرغ تا شیر آدمیزاد',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black26,
+                  fontFamily: "sens",
+                  color:ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -122,30 +125,32 @@ class IntroMainWrapper extends StatelessWidget {
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: const Column(
+          child:  Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 480,
               ),
               Text(
-                'You’ve reached your destination.',
+                'خدمات بینظیر',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.amber,
+                  fontFamily: "sens",
+                  color: ColorPallet.mainTextColor,
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
-                'Sliding with animation',
+                'در کمترین زمان ممکن سفارشتو تحویل میگیری . پشتیبانی تا ابد در خدمت توعه ',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black26,
+                  fontFamily: "sens",
+                  color:ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -158,30 +163,32 @@ class IntroMainWrapper extends StatelessWidget {
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: const Column(
+          child:  Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 480,
               ),
               Text(
-                'Start now!',
+                'همیشه سود میکنی',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.amber,
+                  fontFamily: "sens",
+                  color: ColorPallet.mainTextColor,
                   fontSize: 24.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
-                'Where everything is possible and customize your onboarding.',
+                'بهترین پیشنهاد ها و جشنواره های تخفیف رو اینجا میتونی تجزبه کنی',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.black26,
+                  fontFamily: "sens",
+                  color:ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),

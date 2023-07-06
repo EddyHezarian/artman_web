@@ -2,20 +2,20 @@
 
 import 'package:artman_web/config/conststants/meassurments.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
-import 'package:artman_web/features/auth_feature/presentation/screens/login_screen.dart';
+import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
 import 'package:artman_web/features/auth_feature/repository/customer_Api_provider.dart';
 import 'package:artman_web/features/auth_feature/repository/models/customer_model.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScren extends StatefulWidget {
-  const SignUpScren({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignUpScren> createState() => _SignUpScrenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScrenState extends State<SignUpScren> {
+class _LoginScreenState extends State<LoginScreen> {
   late CustomerApiProvider customerApiProvider;
   late CustomerModel customerModel;
   @override
@@ -25,34 +25,31 @@ class _SignUpScrenState extends State<SignUpScren> {
     super.initState();
   }
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController= TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             //! logo
             Container(
               margin: const EdgeInsets.only(top: 50),
               width: MediaQuery.of(context).size.width,
-              height: 10,
+              height: 150,
               child: Image.asset(
-                "assets/icons/signup_svg.png",
+                "assets/icons/login.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
             //! welcoming text
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(bottom: 50 , top:16 ),
               child: Text(
-                "به تمدونی خوش اومدی !",
+                "ورود به حساب کاربری",
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: "sens",
@@ -60,19 +57,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                     color: ColorPallet.mainTextColor),
               ),
             ),
-            //! sub text
-            Padding(
-              padding: const EdgeInsets.only(top: 20 , bottom: 20),
-              child: Text(
-                "ایجاد حساب جدید",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: "sens",
-                    fontWeight: FontWeight.w700,
-                    color: ColorPallet.searchBox),
-              ),
-            ),
-            //! نام
+            //! username
             Container(
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -90,7 +75,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                   SizedBox(
                     width: 170,
                     child: TextFormField(
-                        controller: firstNameController,
+                        controller: usernameController,
                         validator: (value) {
                           if (value.toString().isEmpty) {
                             return 'this field is required !';
@@ -98,7 +83,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                           return null;
                         },
                         decoration: InputDecoration.collapsed(
-                            hintText: "نام",
+                            hintText: "نام کاربری",
                             hintStyle: TextStyle(
                                 fontSize: 15,
                                 fontFamily: "sens",
@@ -108,42 +93,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                 ],
               ),
             ),
-            //! نام خانوادگی
-            Container(
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: ColorPallet.background,
-                  border: Border.all(width: 2, color: ColorPallet.searchBox)),
-              child: Row(
-                children: [
-                  //! icon
-                  const Icon(Icons.person),const SizedBox(width: 10,),
-                  SizedBox(
-                    width: 170,
-                    child: TextFormField(
-                        controller: lastNameController,
-                        validator: (value) {
-                          if (value.toString().isEmpty) {
-                            return 'this field is required !';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration.collapsed(
-                            hintText: "نام خانوادگی",
-                            hintStyle: TextStyle(
-                                fontSize: 15,
-                                fontFamily: "sens",
-                                fontWeight: FontWeight.w500,
-                                color: ColorPallet.hintColor))),
-                  ),
-                ],
-              ),
-            ),
-            //! رمز
+            //! password 
             Container(
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -178,61 +128,11 @@ class _SignUpScrenState extends State<SignUpScren> {
                 ],
               ),
             ),
-            //! ایمیل
-            Container(
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: ColorPallet.background,
-                  border: Border.all(width: 2, color: ColorPallet.searchBox)),
-              child: Row(
-                children: [
-                  //! icon
-                  const Icon(Icons.email),
-                  SizedBox(
-                    width: 170,
-                    child: TextFormField(
-                        controller: emailController,
-                        validator: (value) {
-                          if (value.toString().isEmpty) {
-                            return 'this field is required !';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration.collapsed(
-                            hintText: "ایمیل",
-                            hintStyle: TextStyle(
-                                fontSize: 15,
-                                fontFamily: "sens",
-                                fontWeight: FontWeight.w500,
-                                color: ColorPallet.hintColor))),
-                  ),
-                ],
-              ),
-            ),
             //! register button
             GestureDetector(
               onTap: () {
-                // todo --> validate date
-                customerApiProvider
-                    .createCustomer(CustomerModel(
-                  firstName: firstNameController.text,
-                  lastName: lastNameController.text,
-                  email: emailController.text,
-                  password: passwordController.text,
-                ))
-                    .then((response) {
-                  if (response) {
-                    print("passed");
-                    //Todo navigate to home page and show snack bar
-                  } else {
-                    // todo show failed snack bar
-                    print("failed");
-                  }
-                });
+                // todo --> validate data
+                customerApiProvider.loginCustomer(usernameController.text, passwordController.text);
               },
               child: Container(
                 margin: const EdgeInsets.only(top: 30, bottom: 12),
@@ -243,7 +143,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                     color: ColorPallet.secondary),
                 child: Center(
                     child: Text(
-                  "ثبت نام",
+                  "ورود",
                   style: TextStyle(
                       fontSize: 24,
                       fontFamily: "sens",
@@ -257,7 +157,7 @@ class _SignUpScrenState extends State<SignUpScren> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "قبلا ثبت نام کردی ؟",
+                  "ثبت نام نکردی ؟  ",
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: "sens",
@@ -267,14 +167,12 @@ class _SignUpScrenState extends State<SignUpScren> {
                 TextButton(
                     onPressed: () {
                       //todo navigate to login page
-                      Navigator.push(context, MaterialPageRoute(
-                        builder:(context){
-                          return const LoginScreen();
-                        } 
-                        ));
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return const SignUpScren();
+                      })) ; 
                     },
                     child: const Text(
-                      "وارد شوید",
+                      "ثبت نام",
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: "sens",
@@ -289,3 +187,15 @@ class _SignUpScrenState extends State<SignUpScren> {
     );
   }
 }
+
+// Padding(
+//               padding: const EdgeInsets.only(top: 20 , bottom: 20),
+//               child: Text(
+//                 "ایجاد حساب جدید",
+//                 style: TextStyle(
+//                     fontSize: 24,
+//                     fontFamily: "sens",
+//                     fontWeight: FontWeight.w700,
+//                     color: ColorPallet.searchBox),
+//               ),
+//             ),

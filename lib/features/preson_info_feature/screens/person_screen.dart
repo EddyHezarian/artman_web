@@ -1,6 +1,6 @@
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class PersonScreen extends StatelessWidget {
@@ -28,12 +28,12 @@ class PersonScreen extends StatelessWidget {
                   const Align(alignment: Alignment.centerLeft, child: Icon(Icons.notifications)), 
                   const SizedBox(height: 3,),
                   //!Icon
-                  Icon(Icons.person ,size: 60,color: ColorPallet.background,),
+                  InkWell(onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context){return const SignUpScren();})),child: Icon(Icons.person ,size: 60,color: ColorPallet.background,)),
                   const SizedBox(height: 4,),
                   //! name 
-                  SizedBox(height: 30,width:100, child: Center(child: Text("ثریا قاسمی ", style: TextStyles.personName,))),
+                  SizedBox(height: 30,width:100, child: Center(child: Text("ثبت نام", style: TextStyles.personName,))),
                   //! email 
-                  Text("qasem@gmail.com", style: TextStyles.personName,),
+                  Text("", style: TextStyles.personName,),
                 ],),
               ),   
               //! wallet 
