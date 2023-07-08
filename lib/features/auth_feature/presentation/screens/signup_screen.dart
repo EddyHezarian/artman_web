@@ -42,7 +42,7 @@ class _SignUpScrenState extends State<SignUpScren> {
             Container(
               margin: const EdgeInsets.only(top: 50),
               width: MediaQuery.of(context).size.width,
-              height: 10,
+              height: 150,
               child: Image.asset(
                 "assets/icons/signup_svg.png",
                 fit: BoxFit.fitHeight,

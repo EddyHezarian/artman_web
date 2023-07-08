@@ -39,12 +39,7 @@ class ProductApiProvider {
       }
     if(orderBy != null){
       parameters+= "&search=$orderBy";
-      } 
-     
-      
-
-
-
+      }
       String url =
           '${ApiConstants.baseUrl}${ApiConstants.customerUrl}?consumer_key=${ApiConstants.key}&consumer_secret=${ApiConstants.secret}${parameters.toString()}';
       var response = await Dio().get(
