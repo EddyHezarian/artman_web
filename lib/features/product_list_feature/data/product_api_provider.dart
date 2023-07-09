@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../../../config/conststants/api_const.dart';
 
@@ -10,6 +11,7 @@ class ProductApiProvider {
   Future<List<ProductModel>> getProducts(
   { 
     int? pageNumber,
+    List<int>? relatedIDS,
     String? pageSize,
     String? strSearch,
     String? tagName,
@@ -34,6 +36,9 @@ class ProductApiProvider {
       }
     if(tagName != null){
       parameters+= "&tag=$tagName";
+      }
+    if(relatedIDS != null){
+      parameters+= "&include=${relatedIDS.join(",").toString()}";
       }
     if(categoryId != null){
       parameters+= "&category=$categoryId";
@@ -66,3 +71,4 @@ class ProductApiProvider {
   }
 
 }
+

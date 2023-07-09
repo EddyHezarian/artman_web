@@ -22,11 +22,11 @@ return Container(
                             height: 130,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15), 
-                              image:const DecorationImage(image: AssetImage("assets/icons/mob.png"),fit: BoxFit.cover )
+                              image:DecorationImage(image:NetworkImage(model!.images[0].url!),fit: BoxFit.cover )
                               ),
                           ),
                             //! title
-                            const Text("ipone SE 2020"),
+                            Text(model!.name!),
                             //! price
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,10 +45,10 @@ return Container(
                               //! price value
                               Container(
                                 margin: const EdgeInsets.all(10),
-                                child: const Column(children: [
-                                  Text("19000"),
+                                child:  Column(children: [
+                                  Text(model!.price.toString()),
                                   Text(
-                                    "222",style: TextStyle(
+                                    model.regularPrice!,style: const TextStyle(
                                       fontSize: 14,
                                       decoration: TextDecoration.lineThrough,
                                       color: Colors.grey))

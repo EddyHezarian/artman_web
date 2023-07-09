@@ -53,6 +53,7 @@ dependencies:
   card_swiper: ^2.0.4
   woocommerce_api: ^0.1.0
   flutter_typeahead: ^4.6.2
+  html: ^0.15.4
 
 dev_dependencies:
   flutter_test:

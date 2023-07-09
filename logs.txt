@@ -1,2 +1,22 @@
 
-//! refactoring ! 
+//! refactoring !
+
+//! changing models *
+//! impelementing different type of navigation for single product screen *
+//! types : tag , category , search *
+
+//! image for category *
+
+//! jwt token for sign in customer *
+
+
+//! loading spin kit impelementing for --> search box and call api .
+//! validation customer fieled 
+
+
+-color Function for select color for product order 
+-icon for searchBox 
+
+
+
+
