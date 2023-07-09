@@ -1,5 +1,5 @@
 import 'package:artman_web/config/theme/color_pallet.dart';
-import 'package:artman_web/features/home_feature/screen/home_screen.dart';
+import 'package:artman_web/features/home_feature/presentation/screen/home_screen.dart';
 import 'package:banner_carousel/banner_carousel.dart';
 import 'package:flutter/material.dart';
 

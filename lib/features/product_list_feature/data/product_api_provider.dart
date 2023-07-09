@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:artman_web/features/product_list_feature/repository/models/product_model.dart';
+import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:dio/dio.dart';
 
 import '../../../config/conststants/api_const.dart';
 
 class ProductApiProvider {
+  
   Future<List<ProductModel>> getProducts(
   { 
     int? pageNumber,
@@ -26,22 +27,25 @@ class ProductApiProvider {
       parameters+= "&search=$strSearch";
       }
     if(pageSize != null){
-      parameters+= "&search=$pageSize";
+      parameters+= "&per_page=$pageSize";
       }
     if(pageNumber != null){
-      parameters+= "&search=$pageNumber";
+      parameters+= "&page=$pageNumber";
       }
     if(tagName != null){
-      parameters+= "&search=$tagName";
+      parameters+= "&tag=$tagName";
       }
     if(categoryId != null){
-      parameters+= "&search=$categoryId";
+      parameters+= "&category=$categoryId";
       }
     if(orderBy != null){
-      parameters+= "&search=$orderBy";
+      parameters+= "&orderBy=$orderBy";
+      }
+      if(sortOrder != null){
+      parameters+= "&order=$sortOrder";
       }
       String url =
-          '${ApiConstants.baseUrl}${ApiConstants.customerUrl}?consumer_key=${ApiConstants.key}&consumer_secret=${ApiConstants.secret}${parameters.toString()}';
+          '${ApiConstants.baseUrl}${ApiConstants.products}?consumer_key=${ApiConstants.key}&consumer_secret=${ApiConstants.secret}${parameters.toString()}';
       var response = await Dio().get(
         url ,
         options: Options(

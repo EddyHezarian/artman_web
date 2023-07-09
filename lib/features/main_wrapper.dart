@@ -2,8 +2,8 @@ import 'package:artman_web/config/widgets/bottom_nav.dart';
 import 'package:artman_web/config/widgets/floating_action_button.dart';
 import 'package:artman_web/features/category_feature/presentation/screen/category_screen.dart';
 import 'package:artman_web/features/favorite_feature/screen/favorite_screen.dart';
-import 'package:artman_web/features/home_feature/screen/home_screen.dart';
-import 'package:artman_web/features/preson_info_feature/screens/person_screen.dart';
+import 'package:artman_web/features/home_feature/presentation/screen/home_screen.dart';
+import 'package:artman_web/features/person_info_feature/screens/person_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainWrapper extends StatelessWidget {

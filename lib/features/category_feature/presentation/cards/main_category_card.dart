@@ -1,15 +1,14 @@
-
-
 import 'package:artman_web/config/conststants/meassurments.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
+import 'package:artman_web/features/category_feature/repository/model/category_model.dart';
 import 'package:artman_web/features/product_list_feature/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
-Widget mainCategoryCart(BuildContext context , int index , ){
+Widget mainCategoryCart(BuildContext context , int index ,CategoryModel model  ){
   return  InkWell(
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ProductsList(); })),//! create product list 
+      return  ProductsList(); })),//! create product list 
     child: Container(
                     margin: const EdgeInsets.only(right: 20 , left: 20 , bottom: 10),
                     width:MediaQuery.of(context).size.width *  0.8 ,
@@ -25,8 +24,7 @@ Widget mainCategoryCart(BuildContext context , int index , ){
                         height: 90,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          image: const DecorationImage(
-                            image: AssetImage("assets/icons/mob.png"), fit: BoxFit.cover ),
+                        
                           borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
                       ),
                       //! product info 
@@ -37,8 +35,8 @@ Widget mainCategoryCart(BuildContext context , int index , ){
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width *  0.50,
-                              child: Text("موبایل", style: TextStyles.nameOfCategory,)),
-                              SizedBox( width: 200,child: Text("2000+ کالا", style: TextStyles.countOfCategory,)),
+                              child: Text(model.categoryName!, style: TextStyles.nameOfCategory,)),
+                              SizedBox( width: 200,child: Text(model.categorydescription!, style: TextStyles.countOfCategory,)),
                           ],),
                       ),
                       //! icon

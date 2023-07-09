@@ -1,11 +1,8 @@
 import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
-import 'package:artman_web/features/auth_feature/presentation/screens/login_screen.dart';
-import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
-import 'package:artman_web/features/category_feature/presentation/screen/category_screen.dart';
+import 'package:artman_web/features/category_feature/presentation/blocs/cubit/category_cubit.dart';
 import 'package:artman_web/features/intro_feature/screens/splash_screen.dart';
 import 'package:artman_web/features/intro_feature/splash_cubit/cubit/splash_cubit.dart';
-import 'package:artman_web/features/main_wrapper.dart';
-import 'package:artman_web/features/product_list_feature/single_product_screen.dart';
+import 'package:artman_web/features/product_list_feature/blocs/cubit/product_cubit.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +20,12 @@ Future<void> main() async {
       ),
       BlocProvider(
         create: (context) => BottomNavCubit(),
+      ),
+      BlocProvider(
+        create: (context) => ProductCubit(locator()),
+      ),
+      BlocProvider(
+        create: (context) => CategoryCubit(locator()),
       ),
     ],
     child: const MyApp(),
@@ -44,7 +47,9 @@ class MyApp extends StatelessWidget {
         Locale('fa'), // English
       ],
       initialRoute: '/',
-      routes: {},
+      routes: const {
+        
+      },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

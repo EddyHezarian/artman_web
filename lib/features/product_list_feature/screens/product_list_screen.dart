@@ -1,20 +1,55 @@
+import 'dart:async';
+
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
+import 'package:artman_web/features/product_list_feature/blocs/cubit/product_cubit.dart';
+import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 
-import 'package:artman_web/features/product_list_feature/single_product_screen.dart';
+import 'package:artman_web/features/product_list_feature/screens/single_product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductsList extends StatelessWidget {
-  const ProductsList({super.key});
+  ProductsList({super.key});
+  final scrollController = ScrollController();
 
+  void setupScrollController(context){
+    scrollController.addListener(() {
+      if(scrollController.position.atEdge){
+        if(scrollController.position.pixels != 0 ){
+          BlocProvider.of<ProductCubit>(context).loadProducts();
+        }
+      }
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    setupScrollController(context);
+    BlocProvider.of<ProductCubit>(context).loadProducts();
+    return BlocBuilder<ProductCubit, ProductState>(
+      builder: (context, state) {
+        //! if its loading for first time 
+        if(state is  ProductLoading && state.isFirstFetch)
+        {return Center(child: CircularProgressIndicator(color: ColorPallet.secondary),);}
+
+        List<ProductModel> products = [];
+        bool isLoading = false ; 
+        //! if its loading 
+        if (state is ProductLoading){
+          products = state.oldProduct; 
+          isLoading = true ; 
+        }
+        else if (state is ProductLoaded){
+          products = state.Product ;
+        }
+      
+        return SafeArea(
       child: Scaffold(
         body:  Column(children: [
             //! search box ----------------------------------------
-            searchBox(context),
+            SearchBox(),
             //! title-----------------------------------
             Padding(
               padding: const EdgeInsets.all(10),
@@ -23,14 +58,38 @@ class ProductsList extends StatelessWidget {
             //! list ----------------------------------------
             Expanded(
               child: ListView.builder(
-                itemCount: 13,
+                itemCount: products.length + (isLoading ? 0: 0 ), 
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context , index){
-                  //! card 
-                  // todo need APi , modoles to convert to cubit mode 
-                  return
-                  InkWell(
-                    onTap: () => Navigator.push(context,MaterialPageRoute(builder: ((context) => const SingleProductScreen()))),
+                  var data = products[index];
+                  if(index < products.length){
+                      return cartForProductList(context,data);    
+                  }
+                  else{
+                    Timer(const Duration(milliseconds: 30),(){
+                      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+                    });
+                  }
+                  return CircularProgressIndicator(color: ColorPallet.secondary,);
+      
+                }),
+            ) 
+          ],),
+      ),
+    );
+      },
+    )
+    ;
+  }
+}
+
+
+
+
+
+Widget cartForProductList(BuildContext context , ProductModel model ){
+  return InkWell(
+                    onTap: () => Navigator.push(context,MaterialPageRoute(builder: ((context) =>  SingleProductScreen(model: model,)))),
                     child: Column(     
                       children: [
                       Row(
@@ -39,9 +98,9 @@ class ProductsList extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width *  0.26,
                             height: MediaQuery.of(context).size.width *  0.39,
-                            decoration:const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(//Todo make dynamic 
-                                image:AssetImage("assets/icons/mob.png"),fit: BoxFit.cover
+                                image:NetworkImage(model.images[0].url!),fit: BoxFit.cover
                                 )
                             )
                           ),
@@ -53,7 +112,7 @@ class ProductsList extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 10 ,bottom: 10),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width*0.6,
-                                  child: Text("کوشی موبایل فلان",style: TextStyles.nameOfPrudoctList,)),
+                                  child: Text(  model.name!,style: TextStyles.nameOfPrudoctList,)),
                               ),
                               //! rate
                               const Padding(
@@ -68,7 +127,7 @@ class ProductsList extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 10),
                                 child: Row(children: [
-                                  Text("۱۸۰۰۰۰",style: TextStyles.nameOfPrudoctList,),
+                                  Text(model.price!,style: TextStyles.nameOfPrudoctList,),
                                   const SizedBox(width: 8,),
                                   const Text("تومان"),
                                 ],),
@@ -84,11 +143,4 @@ class ProductsList extends StatelessWidget {
                       )
                     ],),
                   );
-                  
-                }),
-            ) 
-          ],),
-      ),
-    );
-  }
 }

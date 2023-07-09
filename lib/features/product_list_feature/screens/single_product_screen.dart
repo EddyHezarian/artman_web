@@ -1,13 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:artman_web/config/theme/color_pallet.dart';
-import 'package:artman_web/config/theme/text_styles.dart';
-import 'package:artman_web/features/home_feature/screen/home_screen.dart';
+import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
+import 'package:artman_web/config/theme/color_pallet.dart';
+import 'package:artman_web/config/theme/text_styles.dart';
+
 class SingleProductScreen extends StatelessWidget {
-  const SingleProductScreen({super.key});
+  final ProductModel model ; 
+  const SingleProductScreen({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +36,6 @@ class SingleProductScreen extends StatelessWidget {
                     SizedBox(width: 10,),
                     Icon(Icons.share),
                   ],)
-                  //! favorite
-                  //! share
                 ],
                 ),
                 //! image 
@@ -41,27 +45,24 @@ class SingleProductScreen extends StatelessWidget {
                   height: 200,
                   child:  
                   Swiper(
-                    
                     physics: const BouncingScrollPhysics(),
                     curve: Curves.bounceInOut,
                     loop: false ,
                     autoplay: false,
                     pagination: const SwiperPagination(),
-
                   itemBuilder: (BuildContext context, int index) {
                     return Image.network(
-                      banerimg[index],
+                      model.images[index].url!,
                       fit: BoxFit.cover,
                     );
                   },
-                  itemCount: 4,
+                  itemCount: model.images.length,
                   viewportFraction: 0.8,
                   scale: 0.9,
                   ),
                 ),
-
                 //! name 
-                Text("میومویمویمویمیومیوم" , style: TextStyles.nameOfPrudoctList, ),
+                Text(model.name! , style: TextStyles.nameOfPrudoctList, ),
                 //! price and rate 
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -76,12 +77,12 @@ class SingleProductScreen extends StatelessWidget {
                       color: ColorPallet.searchBox ,
                       borderRadius: BorderRadius.circular(15)
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("49000"),
-                        SizedBox(width: 10,),
-                        Text("تومان"),
+                        Text(model.price! ),
+                        const SizedBox(width: 10,),
+                        const Text("تومان"),
                       ],
                     ),
                   ),
@@ -298,7 +299,7 @@ class SingleProductScreen extends StatelessWidget {
                 decoration: BoxDecoration(color: ColorPallet.secondary ,borderRadius: BorderRadius.circular(10)),
                 child: const Center(child: Text("خرید",style: TextStyle(color: Colors.white ,fontSize: 24 ,fontFamily: "sens",fontWeight: FontWeight.bold))),
               ),
-              const Text("49000",style: TextStyle(color: Colors.black ,fontSize: 24 ,fontFamily: "sens",fontWeight: FontWeight.bold)),
+              Text(model.price! ,style: const TextStyle(color: Colors.black ,fontSize: 24 ,fontFamily: "sens",fontWeight: FontWeight.bold)),
             ],),
           )
           ),

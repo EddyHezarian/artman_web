@@ -41,7 +41,7 @@ class FormHelper {
     Widget? suffixIcon,
   }) {
     return InputDecoration(
-      contentPadding: EdgeInsets.all(6),
+      contentPadding: const EdgeInsets.all(6),
       hintText: hintText,
       helperText: helperText,
       prefixIcon: prefixIcon,
@@ -63,10 +63,10 @@ class FormHelper {
 
   static Widget fieldLabel(String labelName) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
       child: Text(
         labelName,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 15.0,
         ),

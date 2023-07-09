@@ -8,11 +8,12 @@ abstract class DataState<T> {
   DataState(this.data, this.error);
 }
 
-class SucessData extends DataState{
-  SucessData(super.data, super.error);
+//* success 
+class SucessData<T> extends DataState<T>{
+  SucessData(T data ) :super(data , null);
 
 }
-class ErrorData extends DataState{
-  ErrorData(super.data, super.error);
-
+//! failed 
+class ErrorData<T> extends DataState<T>{
+  ErrorData(String error):super(null , error);
 }

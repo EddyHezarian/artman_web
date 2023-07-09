@@ -3,7 +3,9 @@ import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-Widget trendCard(int index ){
+import '../../../product_list_feature/data/models/product_model.dart';
+
+Widget trendCard({required int index  , ProductModel? model}  ){
   //! card for Trend products in home page .
 return Container(
                         margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,

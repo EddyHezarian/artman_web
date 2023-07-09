@@ -37,11 +37,11 @@ class ProductModel {
     salePrice = json["sale_price"];
     stockStatus = json["stock_status"];
     if(json["images"] != null){
-      images = List<Image>.empty();
+      images = <Image>[];
       json["images"].forEach((element){ images.add( Image.fromJson(element));} );
       }
       if(json["categories"] != null){
-      categories = List<CategoryModel>.empty();
+      categories = <CategoryModel>[];
       json["categories"].forEach((element){ categories.add( CategoryModel.fromJason(element));} );
       }
   }

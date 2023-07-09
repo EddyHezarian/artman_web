@@ -91,7 +91,7 @@ class PersonScreen extends StatelessWidget {
                 child: Divider(color: Colors.black,height: 1,thickness: 1,),
               ),
               //! سفارش های من 
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: ColorPallet.searchBox),
                  width:MediaQuery.of(context).size.width * 0.50 ,
@@ -107,7 +107,7 @@ class PersonScreen extends StatelessWidget {
               ),
         
               //! ادرس های من 
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: ColorPallet.searchBox),
                  width:MediaQuery.of(context).size.width * 0.50 ,
@@ -122,7 +122,7 @@ class PersonScreen extends StatelessWidget {
                 ),
               ),
               //!تنظیمات کاربری 
-               SizedBox(height: 10,),
+               const SizedBox(height: 10,),
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: ColorPallet.searchBox),
                  width:MediaQuery.of(context).size.width * 0.50 ,
@@ -136,7 +136,7 @@ class PersonScreen extends StatelessWidget {
                   ],
                 ),
               ),
-               SizedBox(height: 10,),
+               const SizedBox(height: 10,),
               //! پشتیبانی 
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: ColorPallet.searchBox),
@@ -151,7 +151,7 @@ class PersonScreen extends StatelessWidget {
                   ],
                 ),
               ),
-               SizedBox(height: 10,),
+               const SizedBox(height: 10,),
               //! خروج 
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: ColorPallet.secondary),
