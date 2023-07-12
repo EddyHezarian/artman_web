@@ -15,18 +15,19 @@ class MainWrapper extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         //?backgroundColor: ColorPallet.background,
-        //!actions--> floating ation button for creat order and bottom nav for routing the page 
-        floatingActionButton: floatingActionButton() , 
+        //!actions--> floating ation button for creat order and bottom nav for routing the page
+        floatingActionButton: floatingActionButton(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: CustomeBottomNav(
-        controller: _pageController,
+          controller: _pageController,
         ),
-        
+
         body: PageView(
-          physics: const NeverScrollableScrollPhysics(),//! for prevent conflict in scrolling
+          physics:
+              const NeverScrollableScrollPhysics(), //! for prevent conflict in scrolling
           allowImplicitScrolling: true,
           controller: _pageController,
-          children:  const [
+          children: const [
             HomeScreen(),
             CategortyScreen(),
             FavoriteScreen(),

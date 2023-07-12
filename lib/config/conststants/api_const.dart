@@ -8,5 +8,9 @@ class ApiConstants{
   static const String products = "products";
   static const String todayofferTagId = "24";
   static const String topSellingsProductsId = "25";
+  static const String addToCartUrl = "addtocart";
+  static const String cartUrl = "cart";
+  static const String useridTMP = "3";
+  static const String orderURL = "orders";
 
 }

@@ -1,9 +1,6 @@
 import 'dart:io';
-
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-
 import '../../../config/conststants/api_const.dart';
 
 class ProductApiProvider {
@@ -60,15 +57,17 @@ class ProductApiProvider {
         )
       );
       if(response.statusCode == 200){
+        
         data = (response.data as List).map(
           (e) => ProductModel.fromJson(e)
           ).toList();
+          print(data);
       }
     } on DioException catch (e) {
       print(e.response);
     }
     return data ;
   }
-
+  
 }
 

@@ -1,20 +1,36 @@
 import '../../../category_feature/repository/model/category_model.dart';
+import 'package:hive/hive.dart';
+part 'product_model.g.dart';
+
+@HiveType(typeId: 2)
 class ProductModel { 
+  @HiveField(0)
   int? id  ;
+  @HiveField(1)
   List<int>? releatedProducts ;
-  String?  name ; 
-  String?  description; 
-  String?  shortDescription ; 
-  String?  sku ; 
-  String?  price ; 
-  String?  regularPrice ; 
-  String?  salePrice ; 
-  String?  stockStatus ; 
-  late List<Image> images ; 
+  @HiveField(12)
+  String?  name ;
+  @HiveField(2) 
+  String?  description;
+  @HiveField(3) 
+  String?  shortDescription ;
+  @HiveField(4) 
+  String?  sku ;
+  @HiveField(5) 
+  String?  price ;
+  @HiveField(6) 
+  String?  regularPrice ;
+  @HiveField(7) 
+  String?  salePrice ;
+  @HiveField(8) 
+  String?  stockStatus ;
+  @HiveField(9) 
+  late List<Image> images ;
+  @HiveField(10) 
   late List<CategoryModel> categories;
+  @HiveField(11)
   late List<Attribute>? attributes;
 
-  
   ProductModel({
     this.id ,
     required this.name ,

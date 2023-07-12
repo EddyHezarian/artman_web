@@ -1,8 +1,7 @@
 
 
 import 'package:artman_web/core/utiles/prefs_operator.dart';
-import 'package:artman_web/features/intro_feature/screens/intro_screen.dart';
-import 'package:artman_web/features/intro_feature/splash_cubit/cubit/splash_cubit.dart';
+import 'package:artman_web/features/intro_feature/presentation/screens/intro_screen.dart';
 import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/locator.dart';
 
@@ -10,6 +9,8 @@ import 'package:delayed_widget/delayed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../../repository/splash_cubit/cubit/splash_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

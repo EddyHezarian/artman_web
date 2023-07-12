@@ -11,15 +11,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductsList extends StatelessWidget {
-  ProductsList({super.key});
+  ProductsList({super.key , this.search , this.category , this.tag ,required this.title});
+
+  final String? search ; 
+  final String? tag ; 
+  final String? category ; 
+  final String title ; 
+
+
   final scrollController = ScrollController();
 
   void setupScrollController(context) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          print("object");
-          BlocProvider.of<ProductCubit>(context).loadProducts();
+        if(tag!=null){BlocProvider.of<ProductCubit>(context).loadProducts(tag: tag , isfirstCall : false  );}
+        if(search!=null){BlocProvider.of<ProductCubit>(context).loadProducts(search: search , isfirstCall : false  );}
+        if(category!=null){BlocProvider.of<ProductCubit>(context).loadProducts(category: category , isfirstCall : false  );}
         }
       }
     });
@@ -27,7 +35,11 @@ class ProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 setupScrollController(context);
-        BlocProvider.of<ProductCubit>(context).loadProducts();
+ 
+    if(tag!=null){BlocProvider.of<ProductCubit>(context).loadProducts(tag: tag , isfirstCall : true  );}
+    if(search!=null){BlocProvider.of<ProductCubit>(context).loadProducts(search: search , isfirstCall : true  );}
+    if(category!=null){BlocProvider.of<ProductCubit>(context).loadProducts(category: category , isfirstCall : true  );}
+        
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) {
         
@@ -62,7 +74,7 @@ setupScrollController(context);
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "جست و جو در دسته ی موبایل",
+                        "جست و جو در دسته ی $title" , 
                         style: TextStyles.titleOfPage,
                       )),
                 ),

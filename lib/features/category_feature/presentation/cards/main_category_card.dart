@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 Widget mainCategoryCart(BuildContext context , int index ,CategoryModel model  ){
   return  InkWell(
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return  ProductsList(); })),//! create product list 
+      return  ProductsList(category: model.categoryId.toString(), title: model.categoryName!,); 
+      })),//! create product list 
     child: Container(
                     margin: const EdgeInsets.only(right: 20 , left: 20 , bottom: 10),
                     width:MediaQuery.of(context).size.width *  0.8 ,

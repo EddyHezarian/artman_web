@@ -1,4 +1,4 @@
-import 'package:artman_web/features/intro_feature/splash_repository/splash_repository.dart';
+import 'package:artman_web/features/intro_feature/repository/splash_repository/splash_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 

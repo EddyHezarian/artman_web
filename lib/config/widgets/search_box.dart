@@ -4,6 +4,8 @@ import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/product_list_feature/data/product_api_provider.dart';
+import 'package:artman_web/features/product_list_feature/screens/product_list_screen.dart';
+import 'package:artman_web/features/product_list_feature/screens/single_product_screen.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -32,6 +34,7 @@ Container(
                     const SizedBox(width: Meassurments.crossSpaceinBox,),
                       Expanded(
                       child: TypeAheadField(
+                        
                         itemSeparatorBuilder: (context, index) => const Divider(),
                         suggestionsBoxDecoration: SuggestionsBoxDecoration(
                           borderRadius: BorderRadius.circular(15),
@@ -47,6 +50,7 @@ Container(
                           );
                         },
                         textFieldConfiguration: TextFieldConfiguration(
+                          onEditingComplete: () =>  Navigator.push(context, MaterialPageRoute(builder: (context){return ProductsList(search: searchController.text , title:searchController.text );})),
                           controller: searchController,
                           decoration: const InputDecoration.collapsed(hintText: TextConsts.searchBox)
                         ),
@@ -58,7 +62,9 @@ Container(
                         }, 
                         onSuggestionSelected: (ProductModel suggestion) { 
                           searchController.text = suggestion.name!;
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return SingleProductScreen(model: suggestion);
+                          }));
                         },
                         )
                     )

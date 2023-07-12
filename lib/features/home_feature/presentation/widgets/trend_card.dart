@@ -26,7 +26,7 @@ return Container(
                               ),
                           ),
                             //! title
-                            Text(model!.name!),
+                            Text(model.name!),
                             //! price
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +46,7 @@ return Container(
                               Container(
                                 margin: const EdgeInsets.all(10),
                                 child:  Column(children: [
-                                  Text(model!.price.toString()),
+                                  Text(model.price.toString()),
                                   Text(
                                     model.regularPrice!,style: const TextStyle(
                                       fontSize: 14,
