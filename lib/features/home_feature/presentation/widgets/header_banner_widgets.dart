@@ -26,5 +26,4 @@ Widget headerBanner(BuildContext context ){
               width: MediaQuery.of(context).size.width * 0.98,
               indicatorBottom: false,
             );
-
 }

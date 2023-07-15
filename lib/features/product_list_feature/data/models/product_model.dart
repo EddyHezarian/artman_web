@@ -1,3 +1,5 @@
+import '../../../../core/models/attrebutes.dart';
+import '../../../../core/models/image_model.dart';
 import '../../../category_feature/repository/model/category_model.dart';
 import 'package:hive/hive.dart';
 part 'product_model.g.dart';
@@ -8,27 +10,27 @@ class ProductModel {
   int? id  ;
   @HiveField(1)
   List<int>? releatedProducts ;
-  @HiveField(12)
+  @HiveField(2)
   String?  name ;
-  @HiveField(2) 
+  @HiveField(3)
   String?  description;
-  @HiveField(3) 
+  @HiveField(4)
   String?  shortDescription ;
-  @HiveField(4) 
-  String?  sku ;
   @HiveField(5) 
-  String?  price ;
+  String?  sku ;
   @HiveField(6) 
-  String?  regularPrice ;
+  String?  price ;
   @HiveField(7) 
-  String?  salePrice ;
+  String?  regularPrice ;
   @HiveField(8) 
-  String?  stockStatus ;
+  String?  salePrice ;
   @HiveField(9) 
-  late List<Image> images ;
+  String?  stockStatus ;
   @HiveField(10) 
+  late List<ImageSrc> images ;
+  @HiveField(11) 
   late List<CategoryModel> categories;
-  @HiveField(11)
+  @HiveField(12)
   late List<Attribute>? attributes;
 
   ProductModel({
@@ -59,8 +61,8 @@ class ProductModel {
     salePrice = json["sale_price"];
     stockStatus = json["stock_status"];
     if(json["images"] != null){
-      images = <Image>[];
-      json["images"].forEach((element){ images.add( Image.fromJson(element));} );
+      images = <ImageSrc>[];
+      json["images"].forEach((element){ images.add( ImageSrc.fromJson(element));} );
       }
     if(json["categories"] != null){
       categories = <CategoryModel>[];
@@ -79,21 +81,6 @@ class ProductModel {
 
 
 
-
-
-}
-
-class Attribute {
-  int? id ; 
-  String? name ; 
-  List<String>? options ;
-  Attribute({this.id , this.name , this.options});
-
-  Attribute.fromJson(Map<String , dynamic>json){
-    name = json["name"]; 
-    id = json["id"]; 
-    options = json["options"].cast <String>() ; 
-  }
 
 
 }

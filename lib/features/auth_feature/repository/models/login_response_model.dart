@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class LoginResponseModel {
-  String? success ;
-  String? statusCode;
+  bool? success ;
+  int? statusCode;
   String? message;
   String? code;
   Data? data;
@@ -37,30 +37,33 @@ Map<String , dynamic> toJason(){
 
 class Data{
   String? token ; 
-  String? id ; 
-  String? nicename ; 
+  int? id ; 
+  String? nicename ;
+  String? email ;
   String? firstname ; 
   String? lastname ; 
   String? displayname ; 
-  Data({this.token ,this.id ,this.nicename ,this.firstname ,this.lastname ,this.displayname , });
+  Data({this.token ,this.id ,this.nicename ,this.firstname ,this.lastname ,this.displayname ,this.email });
 
 Data.fromJson(Map<String ,dynamic> json){
   token = json["token"];
+  email = json["email"];
   id = json["id"];
   nicename = json["nicename"];
-  firstname = json["firstname"];
-  lastname = json["lastname"];
-  displayname = json["displayname"];
+  firstname = json["firstName"];
+  lastname = json["lastName"];
+  displayname = json["displayName"];
 }
 
 Map<String , dynamic> toJason(){
   final Map<String , dynamic> data = <String , dynamic>{};
   data["token"]=token;
+  data["email"]=email;
   data["id"]=id;
   data["nicename"]=nicename;
-  data["firstname"]=firstname;
-  data["lastname"]=lastname;
-  data["displayname"]=displayname;
+  data["firstName"]=firstname;
+  data["lastName"]=lastname;
+  data["displayName"]=displayname;
 
   return data ;
 

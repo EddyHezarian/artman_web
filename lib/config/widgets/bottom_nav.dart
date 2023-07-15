@@ -17,10 +17,6 @@ class CustomeBottomNav extends StatefulWidget {
 }
 
 class _CustomeBottomNavState extends State<CustomeBottomNav> {
-  bool clickedOrder = true;
-  bool clickedComplet = false;
-  bool clickedChart = false;
-  bool clickedPerson = false;
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -101,11 +97,16 @@ class _CustomeBottomNavState extends State<CustomeBottomNav> {
                       onPressed: () {
                         BlocProvider.of<BottomNavCubit>(context).changeState(3);
                         widget.controller.animateToPage(3,
-                            duration: const Duration(milliseconds: 200),
+                            duration: const Duration(milliseconds: 100),
                             curve: Curves.easeInOut);
                       },
-                      icon: state == 3 ?
-                      const Icon(Icons.person):const Icon(Icons.person_2_outlined)
+                      icon: 
+                       ImageIcon(
+                          AssetImage( state == 3 
+                              ? IconsUrl.personFilled
+                              : IconsUrl.person),
+                          size: 40,
+                          color: ColorPallet.mainTextColor)
                       ),
                 ],
               ),

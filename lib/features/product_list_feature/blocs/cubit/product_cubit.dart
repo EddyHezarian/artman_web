@@ -59,23 +59,16 @@ class ProductCubit extends Cubit<ProductState> {
         emit(ProductLoaded(products));
       });
     }
-
-
-// if(tag!= null){
-//       productApiProvider.getProducts(  tagName: tag, pageNumber: page , pageSize: "7").then((newProducts){
-//       page ++ ;
-//       final  products =  (state as ProductLoading).oldProduct;
-//       products.addAll(newProducts);
-//       emit(ProductLoaded(products));
-//     } );
-// }
-// if(category!= null){
-//       productApiProvider.getProducts(  categoryId: category ,pageNumber: page , pageSize: "7").then((newProducts){
-//       page ++ ;
-//       final  products =  (state as ProductLoading).oldProduct;
-//       products.addAll(newProducts);
-//       emit(ProductLoaded(products));
-//     } );
-// }
+    if(search == null && category == null && tag==null){
+      isfirstCall == true ? page = 1 : page;
+      productApiProvider
+          .getProducts(pageNumber: page, pageSize: "7")
+          .then((newProducts) {
+        page++;
+        final products = (state as ProductLoading).oldProduct;
+        products.addAll(newProducts);
+        emit(ProductLoaded(products));
+    });
+    }
   }
 }

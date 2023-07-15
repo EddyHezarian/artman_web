@@ -8,11 +8,6 @@ import 'package:dio/dio.dart';
 
 class CustomerApiProvider {
   Future<bool> createCustomer(CustomerModel model) async {
-    //access to auth token not needed for sign up !
-    // var authToken = base64.encode(
-    // utf8.encode("${ApiConstants.key}:${ApiConstants.secret}")
-    // );
-
     bool ret = false;
     try {
       var response = await Dio().post(
@@ -36,6 +31,35 @@ class CustomerApiProvider {
     return ret;
   }
 
+  Future<bool> searchForCustomerByEmail({ String? email })async {
+    bool isExistUser = true ;
+    List<CustomerModel> data = List.empty();
+    try {
+      String url = '${ApiConstants.baseUrl}${ApiConstants.customerUrl}?consumer_key=${ApiConstants.key}&consumer_secret=${ApiConstants.secret}&email=$email';
+      var response = await Dio().get(url , 
+      options: Options(
+        headers: {
+          HttpHeaders.contentTypeHeader : 'application/json',
+        }
+      )
+      ) ;
+
+      
+      if (response.statusCode == 200){
+        data = (response.data as List).map(
+          (e) => CustomerModel.fromJason(e)
+          ).toList();
+        data.isEmpty ?  isExistUser = false  : isExistUser = true ; 
+      }
+    }on DioException catch (e) {
+      print(e.response);
+    }
+  return isExistUser;
+  }
+
+
+
+
   Future<LoginResponseModel> loginCustomer(
     String username,
     String password,
@@ -52,10 +76,12 @@ class CustomerApiProvider {
             HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded",
           }));
       if (response.statusCode == 200) {
+        print("pass");
         model = LoginResponseModel.fromJason(response.data);
       }
     } on DioException catch (e) {
-      print(e);
+      print(e.response);
+      print("---------------------------------------------------");
     }
     return model;
   }

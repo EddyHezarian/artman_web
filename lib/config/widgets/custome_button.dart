@@ -7,17 +7,19 @@ class CustomeButton extends StatelessWidget {
   const CustomeButton(
       {super.key,
       required this.title,
+      required this.totalprice,
       required this.action});
 
   final String title ; 
   final Function action;
+  final String totalprice ; 
 
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-      Navigator.push(context, MaterialPageRoute(builder: (context){return  ShippingAndPaymentScreen();}));
+      Navigator.push(context, MaterialPageRoute(builder: (context){return  ShippingAndPaymentScreen(totalprice: totalprice,);}));
 
       },
       child: Container(

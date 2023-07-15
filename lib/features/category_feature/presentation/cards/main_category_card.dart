@@ -24,7 +24,7 @@ Widget mainCategoryCart(BuildContext context , int index ,CategoryModel model  )
                         width: MediaQuery.of(context).size.width *  0.22,
                         height: 90,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          image: DecorationImage(image: NetworkImage(model.image!.url!)),
                         
                           borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
                       ),

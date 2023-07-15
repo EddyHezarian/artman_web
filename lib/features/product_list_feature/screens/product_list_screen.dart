@@ -28,6 +28,7 @@ class ProductsList extends StatelessWidget {
         if(tag!=null){BlocProvider.of<ProductCubit>(context).loadProducts(tag: tag , isfirstCall : false  );}
         if(search!=null){BlocProvider.of<ProductCubit>(context).loadProducts(search: search , isfirstCall : false  );}
         if(category!=null){BlocProvider.of<ProductCubit>(context).loadProducts(category: category , isfirstCall : false  );}
+        if(category== null && tag == null && search==null){BlocProvider.of<ProductCubit>(context).loadProducts( isfirstCall : false  );}
         }
       }
     });
@@ -35,10 +36,10 @@ class ProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 setupScrollController(context);
- 
     if(tag!=null){BlocProvider.of<ProductCubit>(context).loadProducts(tag: tag , isfirstCall : true  );}
     if(search!=null){BlocProvider.of<ProductCubit>(context).loadProducts(search: search , isfirstCall : true  );}
     if(category!=null){BlocProvider.of<ProductCubit>(context).loadProducts(category: category , isfirstCall : true  );}
+    if(category== null && tag == null && search==null){BlocProvider.of<ProductCubit>(context).loadProducts( isfirstCall : true  );}
         
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) {

@@ -17,19 +17,19 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProductModel(
-      name: fields[12] as String?,
       id: fields[0] as int?,
-      description: fields[2] as String?,
-      shortDescription: fields[3] as String?,
-      sku: fields[4] as String?,
-      price: fields[5] as String?,
-      regularPrice: fields[6] as String?,
-      salePrice: fields[7] as String?,
-      stockStatus: fields[8] as String?,
-      images: (fields[9] as List).cast<Image>(),
+      name: fields[2] as String?,
+      description: fields[3] as String?,
+      shortDescription: fields[4] as String?,
+      sku: fields[5] as String?,
+      price: fields[6] as String?,
+      regularPrice: fields[7] as String?,
+      salePrice: fields[8] as String?,
+      stockStatus: fields[9] as String?,
+      images: (fields[10] as List).cast<ImageSrc>(),
       releatedProducts: (fields[1] as List?)?.cast<int>(),
-      categories: (fields[10] as List).cast<CategoryModel>(),
-      attributes: (fields[11] as List?)?.cast<Attribute>(),
+      categories: (fields[11] as List).cast<CategoryModel>(),
+      attributes: (fields[12] as List?)?.cast<Attribute>(),
     );
   }
 
@@ -42,27 +42,27 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(1)
       ..write(obj.releatedProducts)
       ..writeByte(2)
-      ..write(obj.description)
+      ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.shortDescription)
+      ..write(obj.description)
       ..writeByte(4)
-      ..write(obj.sku)
+      ..write(obj.shortDescription)
       ..writeByte(5)
-      ..write(obj.price)
+      ..write(obj.sku)
       ..writeByte(6)
-      ..write(obj.regularPrice)
+      ..write(obj.price)
       ..writeByte(7)
-      ..write(obj.salePrice)
+      ..write(obj.regularPrice)
       ..writeByte(8)
-      ..write(obj.stockStatus)
+      ..write(obj.salePrice)
       ..writeByte(9)
-      ..write(obj.images)
+      ..write(obj.stockStatus)
       ..writeByte(10)
-      ..write(obj.categories)
+      ..write(obj.images)
       ..writeByte(11)
-      ..write(obj.attributes)
+      ..write(obj.categories)
       ..writeByte(12)
-      ..write(obj.name);
+      ..write(obj.attributes);
   }
 
   @override

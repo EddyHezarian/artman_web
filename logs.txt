@@ -17,6 +17,10 @@
 -color Function for select color for product order 
 -icon for searchBox 
 
+//! wishlist cards and cubits ... 
 
+//! profile screens ...
+
+// store data managment in hive ... 
 
 

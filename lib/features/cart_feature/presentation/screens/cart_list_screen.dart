@@ -4,11 +4,15 @@ import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../product_list_feature/screens/product_list_screen.dart';
 import '../../repository/blocs/cubit/cart_product_cubit.dart';
 
 
+// ignore: must_be_immutable
 class CartListScreen extends StatelessWidget {
-  const CartListScreen({super.key});
+  CartListScreen({super.key});
+  
+  int isAllowToCallGetProducts = 0 ; 
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,8 @@ class CartListScreen extends StatelessWidget {
       builder: (context, state) {
         int totalprice = 0;
         var cubit = CartProductCubit.get(context);
-        cubit.getBox();
+        if(isAllowToCallGetProducts==0 ){isAllowToCallGetProducts =1; }
+        if(isAllowToCallGetProducts==1){isAllowToCallGetProducts =2;cubit.getBox(); }
         List<CartProductModel> productList = [];
         for (var item in cubit.cartProductList!) {
           totalprice += int.parse(item.price) * item.qty;
@@ -39,9 +44,47 @@ class CartListScreen extends StatelessWidget {
             ),
             //! list
             body: productList.length == 0
-                ? const Center(
-                    child: Text("سفارشی ثبت نکردی هنوز"),
-                  )
+                ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "هیچ محصولی رو اضافه نکردی هنوز ",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "sens"),
+                            textAlign: TextAlign.center,
+                          ),
+                          GestureDetector(
+                              onTap: () async {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (contex) {
+                                  return ProductsList(title: "محصولات تمدونی");
+                                }));
+                              },
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.only(top: 30, bottom: 12),
+                                width: 130,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: ColorPallet.secondary),
+                                child: Center(
+                                    child: Text(
+                                  "دیدن محصولات",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: "sens",
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorPallet.background),
+                                )),
+                              )),
+                        ],
+                      ),
+                    )
                 : ListView.separated(
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: productList.length,
@@ -82,6 +125,7 @@ class CartListScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -96,7 +140,6 @@ class CartListScreen extends StatelessWidget {
                                               qty: data.qty,
                                               img: data.img,
                                               price: data.price);
-
                                           cubit.deleteProduct(model);
                                         },
                                         icon: const Icon(Icons.delete)),
@@ -176,14 +219,15 @@ class CartListScreen extends StatelessWidget {
                         ),
                       );
                     }),
+            
             //! bottom
             bottomNavigationBar: SizedBox(
-              height: 70,
+              height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   //! button
-                  CustomeButton(title: "ثبت", action: () {
+                  CustomeButton(title: "ثبت", totalprice:  totalprice.toString() ,action: () {
                   }),
                   Column(
                     children: [

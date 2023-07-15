@@ -7,8 +7,6 @@ import 'package:dio/dio.dart';
 class CustomerDetailApiProvider{
   Future<CustomerDetailModel> getData ()async{
     CustomerDetailModel responseModel= CustomerDetailModel() ;
-    
-
     try{
       String url = "${ApiConstants.baseUrl}${ApiConstants.customerUrl}/${ApiConstants.useridTMP}?consumer_key=${ApiConstants.key}&consumer_secret=${ApiConstants.secret}";
 
@@ -23,7 +21,7 @@ class CustomerDetailApiProvider{
       if(response.statusCode == 200){responseModel = CustomerDetailModel.fromJson(response.data);}
 
     }on DioException catch(e){
-     print(e.response);
+    print(e.response);
     }
     return responseModel ;
   }
