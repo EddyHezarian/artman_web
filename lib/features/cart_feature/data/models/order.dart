@@ -35,7 +35,7 @@ class OrderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data["customer_id"] = customerId;
     data["payment_method"] = paymentMethod;
     data["payment_method_title"] = paymentMethodTitle;
@@ -51,28 +51,33 @@ class OrderModel {
 
 class LineItemModel {
   int? productId;
+  double? total;
   int? qty;
   LineItemModel({
     required this.productId,
     required this.qty,
+    required this.total,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'productId': productId,
       'qty': qty,
+      'total': total,
     };
   }
 
   LineItemModel.fromJson(Map<String, dynamic> json) {
     productId = json["product_id"];
     qty = json["quantity"];
+    total = double.parse(json["total"]);
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data["product_id"] = productId;
     data["quantity"] = qty;
+    data["total"] = total;
     return data;
   }
 }

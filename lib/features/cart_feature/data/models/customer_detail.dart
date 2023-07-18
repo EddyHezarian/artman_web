@@ -62,7 +62,7 @@ class Billing {
     phone = json["phone"];
   }
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data["last_name"] = firstname;
     data["company"] = lastname;
     data["first_name"] = company;
@@ -117,7 +117,7 @@ class Shipping{
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data["last_name"] = firstname;
     data["company"] = lastname;
     data["first_name"] = company;

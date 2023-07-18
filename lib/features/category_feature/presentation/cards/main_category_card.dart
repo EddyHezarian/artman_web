@@ -1,14 +1,15 @@
 import 'package:artman_web/config/conststants/meassurments.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
-import 'package:artman_web/features/category_feature/repository/model/category_model.dart';
-import 'package:artman_web/features/product_list_feature/screens/product_list_screen.dart';
+import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../data/model/category_model.dart';
 
 Widget mainCategoryCart(BuildContext context , int index ,CategoryModel model  ){
   return  InkWell(
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return  ProductsList(category: model.categoryId.toString(), title: model.categoryName!,); 
+      return  ProductsListScreen(category: model.categoryId.toString(), title: model.categoryName!,); 
       })),//! create product list 
     child: Container(
                     margin: const EdgeInsets.only(right: 20 , left: 20 , bottom: 10),

@@ -38,7 +38,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
-  banner_carousel: ^1.2.1
+  
   slide_countdown: ^0.6.0
   delayed_widget: ^1.1.2
   bloc: ^8.1.2
@@ -51,14 +51,14 @@ dependencies:
   get_it: ^7.6.0
   expandable: ^5.0.1
   card_swiper: ^2.0.4
-  woocommerce_api: ^0.1.0
   flutter_typeahead: ^4.6.2
   html: ^0.15.4
-  provider: ^6.0.5
   hive_flutter: ^1.1.0
   hive: ^2.2.3
   url_launcher: ^6.1.12
-  
+  connectivity_plus: ^4.0.1
+  cached_network_image: ^3.2.3
+  share_plus: ^7.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

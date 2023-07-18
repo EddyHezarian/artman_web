@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/cart_feature/presentation/screens/Shipping_And_PaymentScreen.dart';
+import '../../features/cart_feature/presentation/screens/shipping_and_payment_screen.dart';
 import '../theme/color_pallet.dart';
 
 class CustomeButton extends StatelessWidget {

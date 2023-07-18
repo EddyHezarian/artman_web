@@ -2,12 +2,13 @@ import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
-import 'package:artman_web/features/category_feature/presentation/blocs/cubit/category_cubit.dart';
 import 'package:artman_web/features/category_feature/presentation/cards/main_category_card.dart';
-import 'package:artman_web/features/category_feature/repository/model/category_model.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/model/category_model.dart';
+import '../../repository/blocs/cubit/category_cubit.dart';
 
 class CategortyScreen extends StatelessWidget {
   const CategortyScreen({super.key});

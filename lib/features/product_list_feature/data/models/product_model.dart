@@ -1,7 +1,9 @@
 import '../../../../core/models/attrebutes.dart';
 import '../../../../core/models/image_model.dart';
-import '../../../category_feature/repository/model/category_model.dart';
+
 import 'package:hive/hive.dart';
+
+import '../../../category_feature/data/model/category_model.dart';
 part 'product_model.g.dart';
 
 @HiveType(typeId: 2)
@@ -31,8 +33,10 @@ class ProductModel {
   @HiveField(11) 
   late List<CategoryModel> categories;
   @HiveField(12)
-  late List<Attribute>? attributes;
-
+  late List<Attribute>? 
+  attributes;@HiveField(13)
+  String? slug;
+  
   ProductModel({
     this.id ,
     required this.name ,
@@ -47,6 +51,7 @@ class ProductModel {
     this.releatedProducts,
     required this.categories ,
     this.attributes,
+    this.slug,
   });
 
   ProductModel.fromJson(Map<String, dynamic>json){
@@ -60,6 +65,7 @@ class ProductModel {
     releatedProducts = json["upsell_ids"].cast<int>();
     salePrice = json["sale_price"];
     stockStatus = json["stock_status"];
+    slug = json["slug"];
     if(json["images"] != null){
       images = <ImageSrc>[];
       json["images"].forEach((element){ images.add( ImageSrc.fromJson(element));} );

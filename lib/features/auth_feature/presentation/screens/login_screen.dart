@@ -1,16 +1,16 @@
-
 import 'package:artman_web/config/conststants/meassurments.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
-import 'package:artman_web/features/auth_feature/repository/customer_Api_provider.dart';
-import 'package:artman_web/features/auth_feature/repository/models/customer_model.dart';
-import 'package:artman_web/features/auth_feature/repository/models/login_response_model.dart';
+import 'package:artman_web/features/auth_feature/data/remote_data/customer_api_provider.dart';
 import 'package:artman_web/features/main_wrapper.dart';
-import 'package:artman_web/features/person_info_feature/repository/blocs/cubit/customer_cubit.dart';
+import 'package:artman_web/features/person_info_feature/repository/blocs/customer_cubit/customer_cubit.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../../data/models/customer_model.dart';
+import '../../data/models/login_response_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -154,23 +154,49 @@ class _LoginScreenState extends State<LoginScreen> {
                       LoginResponseModel customer = LoginResponseModel();
                       customer = await customerApiProvider.loginCustomer(
                           usernameController.text, passwordController.text);
-                      String firstname = customer.data!.firstname!;
-                      String lastname = customer.data!.lastname!;
-                      String email = customer.data!.email!;
-                      cubit.addCustomerToBox(CustomerModel(
-                          email: email,
-                          lastName: lastname,
-                          firstName: firstname,
-                          password: "0"));
-                      setState(() {
-                        showWaitingIndicator = false;
-                      });
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                        builder: (context){
-                          return MainWrapper() ;
-                        }
-                      
-                      ), (route) => false);
+                      if (customer.message == "Server Exeption") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('مشکلی توی سرور رخ داده',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "sens")),
+                            backgroundColor: ColorPallet.secondary));
+                      }
+                      if (customer.message == "status is not 200") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('اطلاعات رو دوباره بررسی کن',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "sens")),
+                            backgroundColor: ColorPallet.secondary));
+                      } 
+                      else {
+                        String firstname = customer.data!.firstname!;
+                        String lastname = customer.data!.lastname!;
+                        String email = customer.data!.email!;
+                        int id = customer.data!.id!;
+                        cubit.addCustomerToBox(CustomerModel(
+                            email: email,
+                            id: id,
+                            lastName: lastname,
+                            firstName: firstname,
+                            password: "0"));
+                        setState(() {
+                          showWaitingIndicator = false;
+                        });
+                        Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                            return MainWrapper();
+                            }
+                          ), 
+                          (route) => false
+                        );
+                      }
                     },
                     child: Container(
                       margin: const EdgeInsets.only(top: 30, bottom: 12),

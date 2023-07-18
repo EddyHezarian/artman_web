@@ -25,7 +25,7 @@ class FormHelper {
       maxLines: !isTextArea ? 1 : 3,
       keyboardType: isNumberInput ? TextInputType.number : TextInputType.text,
       onChanged: (String value) {
-        return onChanged(value);
+        onChanged(value);
       },
       validator: (value) {
         return onValidate!(value);

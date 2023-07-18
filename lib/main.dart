@@ -1,13 +1,8 @@
 import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
 import 'package:artman_web/core/models/attrebutes.dart';
 import 'package:artman_web/core/models/image_model.dart';
-import 'package:artman_web/features/auth_feature/repository/models/customer_model.dart';
 import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
-import 'package:artman_web/features/category_feature/presentation/blocs/cubit/category_cubit.dart';
-import 'package:artman_web/features/category_feature/repository/model/category_model.dart';
 import 'package:artman_web/features/intro_feature/presentation/screens/splash_screen.dart';
-import 'package:artman_web/features/person_info_feature/repository/blocs/cubit/customer_cubit.dart';
-import 'package:artman_web/features/product_list_feature/blocs/cubit/product_cubit.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wishlist_cubit.dart';
 import 'package:artman_web/locator.dart';
@@ -17,8 +12,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'features/auth_feature/data/models/customer_model.dart';
 import 'features/cart_feature/repository/blocs/cubit/cart_product_cubit.dart';
+import 'features/category_feature/data/model/category_model.dart';
+import 'features/category_feature/repository/blocs/cubit/category_cubit.dart';
 import 'features/intro_feature/repository/splash_cubit/cubit/splash_cubit.dart';
+import 'features/person_info_feature/repository/blocs/customer_cubit/customer_cubit.dart';
+import 'features/person_info_feature/repository/blocs/my_orders_cubit/cubit/myorder_cubit.dart';
+import 'features/product_list_feature/repository/blocs/cubit/product_cubit.dart';
 const String productDBname = "cartProduct";
 Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -52,8 +53,12 @@ Future<void> main() async {
       ),
       BlocProvider(
         create: (context) => CartProductCubit(),
-      ),BlocProvider(
+      ),
+      BlocProvider(
         create: (context) => WishlistCubit(),
+      ),
+      BlocProvider(
+        create: (context) => MyorderCubit(locator()),
       ),
     ],
     child: const MyApp(),

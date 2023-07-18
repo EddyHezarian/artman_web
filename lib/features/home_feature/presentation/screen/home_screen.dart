@@ -1,18 +1,21 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+import 'dart:async';
 import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
-import 'package:artman_web/features/category_feature/repository/category_api_providers.dart';
+import 'package:artman_web/features/category_feature/data/remote_data/category_api_providers.dart';
 import 'package:artman_web/features/home_feature/presentation/widgets/category_shortcut_card.dart';
 import 'package:artman_web/features/home_feature/presentation/widgets/event_card.dart';
-import 'package:artman_web/features/home_feature/presentation/widgets/header_banner_widgets.dart';
 import 'package:artman_web/features/home_feature/presentation/widgets/trend_card.dart';
-import 'package:artman_web/features/product_list_feature/data/product_api_provider.dart';
+import 'package:artman_web/features/product_list_feature/data/remote_data/product_api_provider.dart';
+import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
+import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
 import 'package:artman_web/locator.dart';
-import 'package:banner_carousel/banner_carousel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:slide_countdown/slide_countdown.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../product_list_feature/data/models/product_model.dart';
 
@@ -24,19 +27,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final pageViewController = PageController(initialPage: 0);
+  Timer? _timer;
+  int _currentPage = 0;
   CategoryApiProvider? categoryApiProvider;
   ProductApiProvider? productApiProvider;
   @override
   void initState() {
     productApiProvider = locator<ProductApiProvider>();
     categoryApiProvider = locator<CategoryApiProvider>();
-
     super.initState();
   }
 
   PageController controller = PageController();
   @override
+  void dispose() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _timer ??= Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < bannerList.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      if (pageViewController.positions.isNotEmpty) {
+        pageViewController.animateToPage(
+          _currentPage,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeIn,
+        );
+      }
+    });
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorPallet.background,
@@ -50,7 +77,46 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 25,
               ),
               //! baner -------------------------------------------------
-              headerBanner(context),
+              SizedBox(
+                height: 180,
+                child: PageView.builder(
+                  onPageChanged: (value) {},
+                  allowImplicitScrolling: true,
+                  controller: pageViewController,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: bannerList.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: CachedNetworkImage(
+                          imageUrl: bannerList[index],
+                          useOldImageOnUrlChange: true,
+                          placeholder: (context, url) => Center(
+                            child:
+                                LoadingAnimationWidget.horizontalRotatingDots(
+                                    color: ColorPallet.secondary, size: 40),
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: SmoothPageIndicator(
+                    effect: ExpandingDotsEffect(
+                        dotWidth: MediaQuery.of(context).size.width * 0.03,
+                        dotHeight: 5,
+                        activeDotColor: ColorPallet.secondary),
+                    controller: pageViewController,
+                    count: bannerList.length),
+              ),
               //! category icons-------------------------------
               const SizedBox(
                 height: 19,
@@ -111,48 +177,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(bottom: 11),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              TextConsts.seeAll,
-                              style: TextStyles.seeAll,
+                            child: InkWell(
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return ProductsListScreen(title:"تازه ترین ها",tag: "19",);
+                                }
+                              )
+                              ),
+                              child: Text(
+                                TextConsts.seeAll,
+                                style: TextStyles.seeAll,
+                              ),
                             )),
                       ),
                       //!cards
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: 4,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return index == 0
-                                  ? Container(
-                                      width: 160,
-                                      color: Colors.transparent,
-                                      child: Column(children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 30, top: 30),
-                                          child: Image.asset(
-                                              "assets/icons/Amazings.png"),
-                                        ),
-                                        SlideCountdownSeparated(
-                                          decoration: BoxDecoration(
-                                              color: ColorPallet.background,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          duration: const Duration(days: 2),
-                                          height: 40,
-                                          width: 27,
-                                          curve: Curves.bounceInOut,
-                                          textStyle: const TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: "sens",
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ]),
-                                    )
-                                  : eventCard();
-                            }),
-                      )
+                      Expanded(child: homeEventList("19"))
                     ],
                   )),
               //! newest --------------------------------------------------------------------
@@ -169,37 +207,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           //! title
                           Text(
-                            TextConsts.newestOrders,
+                            TextConsts.trendings,
                             style: TextStyles.offersTitle,
                           ),
                           //! see all
-                          Container(
-                            margin: const EdgeInsets.all(7),
-                            width: 90,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorPallet.secondary,
+                          InkWell(
+                            onTap: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ProductsListScreen(
+                                title: "پر فروش ترین ها",
+                                tag: "18",
+                              );
+                            })),
+                            child: Container(
+                              margin: const EdgeInsets.all(7),
+                              width: 90,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: ColorPallet.secondary,
+                              ),
+                              child: Center(
+                                  child: Text(
+                                TextConsts.seeAll,
+                                style: TextStyles.seeAll,
+                              )),
                             ),
-                            child: Center(
-                                child: Text(
-                              TextConsts.seeAll,
-                              style: TextStyles.seeAll,
-                            )),
                           )
                         ],
                       ),
                       //!cards
-                      homeProductList(),
-                      // Expanded(
-                      //   child: ListView.builder(
-                      //       itemCount: 4,
-                      //       physics: const BouncingScrollPhysics(),
-                      //       scrollDirection: Axis.horizontal,
-                      //       itemBuilder: (context, index) {
-                      //         return trendCard( index: index,);
-                      //       }),
-                      // )
+                      Expanded(child: homeProductList("18")),
                     ],
                   )),
               //! introduction container ----------------------------------------------------
@@ -304,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8),
                   margin: const EdgeInsets.only(top: 14, bottom: 14),
                   width: double.infinity,
-                  height: 280,
+                  height: 300,
                   child: Column(
                     children: [
                       //! texts
@@ -317,32 +355,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyles.offersTitle,
                           ),
                           //! see all
-                          Container(
-                            margin: const EdgeInsets.all(7),
-                            width: 90,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: ColorPallet.secondary,
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return ProductsListScreen(
+                                  title: "تازه ترین ها",
+                                  tag: "17",
+                                );
+                              }));
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(7),
+                              width: 90,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: ColorPallet.secondary,
+                              ),
+                              child: Center(
+                                  child: Text(
+                                TextConsts.seeAll,
+                                style: TextStyles.seeAll,
+                              )),
                             ),
-                            child: Center(
-                                child: Text(
-                              TextConsts.seeAll,
-                              style: TextStyles.seeAll,
-                            )),
                           )
                         ],
                       ),
                       //!cards
-                      Expanded(
-                        child:  homeProductList()
-
-                              
-                            ),
-                      
+                      Expanded(child: homeProductList("24")),
                     ],
                   )),
-            
             ],
           ),
         ),
@@ -350,16 +393,75 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget homeProductList() {
+  Widget homeProductList(String sku) {
     return FutureBuilder(
-      future: productApiProvider!.getProducts(tagName: "18"),
+      future: productApiProvider!.getProducts(skutitle: sku),
       builder: (context, AsyncSnapshot<List<ProductModel>> model) {
         if (model.hasData) {
           print(model.data!.length);
           return buildHomeCartList(model.data!); //widget
         } else {
-          return  Center(
-            child: CircularProgressIndicator(color: ColorPallet.secondary,),
+          return Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              size: 40,
+              color: ColorPallet.secondary,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget homeEventList(String sku) {
+    return FutureBuilder(
+      future: productApiProvider!.getProducts(skutitle: sku),
+      builder: (context, AsyncSnapshot<List<ProductModel>> model) {
+        if (model.hasData) {
+          print(model.data!.length);
+          return ListView.builder(
+              itemCount: 4,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return index == 0
+                    ? Container(
+                        width: 160,
+                        color: Colors.transparent,
+                        child: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 30, top: 30),
+                            child: Image.asset("assets/icons/Amazings.png"),
+                          ),
+                          SlideCountdownSeparated(
+                            decoration: BoxDecoration(
+                                color: ColorPallet.background,
+                                borderRadius: BorderRadius.circular(8)),
+                            duration: const Duration(days: 2),
+                            height: 40,
+                            width: 27,
+                            curve: Curves.bounceInOut,
+                            textStyle: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: "sens",
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ]),
+                      )
+                    : InkWell(
+                        onTap: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return SingleProductScreen(
+                                model: model.data![index],
+                              );
+                            })),
+                        child: eventCard(model.data![index]));
+              }); //widget
+        } else {
+          return Center(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              size: 40,
+              color: ColorPallet.secondary,
+            ),
           );
         }
       },
@@ -368,7 +470,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildHomeCartList(List<ProductModel> data) {
     return SizedBox(
-      
       height: 220,
       child: ListView.builder(
           itemCount: data.length,
@@ -376,95 +477,24 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             var inc = data[index];
-            return trendCard(index: index , model: inc);
+            return InkWell( 
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return SingleProductScreen(model: inc,);
+                                }
+                              )
+                              );
+              },
+              child: trendCard(index: index, model: inc));
           }),
     );
   }
 }
 
-class BannerImages {
-  static const String banner1 =
-      "https://media.wired.com/photos/63a49538145a571e203e3a7d/master/w_1600%2Cc_limit/asuschromebookflipcx5_GEAR.jpg";
-  static const String banner2 =
-      "https://media.wired.com/photos/62755f0e74e0428e36b7f383/master/w_1600%2Cc_limit/Acer-Swift-3x-Gear.jpg";
-  static const String banner3 =
-      "https://media.product.which.co.uk/prod/images/ar_2to1_900x450/5afeb9dc1a02-mobile-and-sim-dealsadvicerevised.webp";
-  static const String banner4 =
-      "https://images.macrumors.com/t/JUtpCjCRu4zsypwl_8gRVMguwo0=/800x0/article-new/2022/05/airpods-3-purple.jpg?lossy";
-
-  static List<BannerModel> listBanners = [
-    BannerModel(imagePath: banner1, id: "1"),
-    BannerModel(imagePath: banner2, id: "2"),
-    BannerModel(imagePath: banner3, id: "3"),
-    BannerModel(imagePath: banner4, id: "4"),
-  ];
-}
-
-class Card2 extends StatelessWidget {
-  const Card2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
-      width: 160,
-      decoration: BoxDecoration(
-          color: ColorPallet.background,
-          borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
-      child: Column(
-        children: [
-          //! image
-          Container(
-            margin: const EdgeInsets.all(8),
-            width: 130,
-            height: 130,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: const DecorationImage(
-                    image: AssetImage("assets/icons/mob.png"),
-                    fit: BoxFit.cover)),
-          ),
-          //! title
-          const Text("ipone SE 2020"),
-          //! price
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //! bargen banner
-              Container(
-                margin: const EdgeInsets.only(right: 10, top: 10),
-                width: 50,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: ColorPallet.secondary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                    child: Text(
-                  "24%",
-                  style: TextStyles.cardBargen,
-                )),
-              ),
-              //! price value
-              Container(
-                margin: const EdgeInsets.all(10),
-                child: const Column(
-                  children: [
-                    Text("19000"),
-                    Text("222",
-                        style: TextStyle(
-                            fontSize: 14,
-                            decoration: TextDecoration.lineThrough,
-                            color: Colors.grey))
-                  ],
-                ),
-              )
-            ],
-          )
-        ],
-        //! title
-        //! price
-      ),
-    );
-  }
-}
+//TOdo need api for home page or configure
+List bannerList = [
+  "https://media.wired.com/photos/63a49538145a571e203e3a7d/master/w_1600%2Cc_limit/asuschromebookflipcx5_GEAR.jpg",
+  "https://media.wired.com/photos/62755f0e74e0428e36b7f383/master/w_1600%2Cc_limit/Acer-Swift-3x-Gear.jpg",
+  "https://media.product.which.co.uk/prod/images/ar_2to1_900x450/5afeb9dc1a02-mobile-and-sim-dealsadvicerevised.webp",
+  "https://images.macrumors.com/t/JUtpCjCRu4zsypwl_8gRVMguwo0=/800x0/article-new/2022/05/airpods-3-purple.jpg?lossy",
+];

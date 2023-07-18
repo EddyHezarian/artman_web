@@ -3,7 +3,7 @@ import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
-import 'package:artman_web/features/product_list_feature/screens/product_list_screen.dart';
+import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -154,7 +154,7 @@ class FavoriteScreen extends StatelessWidget {
                               onTap: () async {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (contex) {
-                                  return ProductsList(title: "محصولات تمدونی");
+                                  return ProductsListScreen(title: "محصولات تمدونی");
                                 }));
                               },
                               child: Container(

@@ -1,4 +1,5 @@
 import 'package:artman_web/config/conststants/meassurments.dart';
+import 'package:artman_web/config/functions/calculate_off_percent.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,8 @@ import '../../../product_list_feature/data/models/product_model.dart';
 Widget trendCard({required int index  , ProductModel? model}  ){
   //! card for Trend products in home page .
 return Container(
-                        margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
+  padding: const EdgeInsets.all(4),
+                    margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
                     width: 160,
                     decoration: BoxDecoration(
                       color: ColorPallet.cards,
@@ -26,7 +28,7 @@ return Container(
                               ),
                           ),
                             //! title
-                            Text(model.name!),
+                            Text(model.name!,maxLines: 1,textAlign: TextAlign.center,),
                             //! price
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +42,7 @@ return Container(
                                   color: ColorPallet.secondary, 
                                   borderRadius: BorderRadius.circular(8),
                                   ),
-                                child: Center(child: Text("24%", style: TextStyles.cardBargen,)),
+                                child: Center(child: Text("${calculatePercentOff(double.parse(model.salePrice!), double.parse(model.regularPrice!)).toInt().toString()}%", style: TextStyles.cardBargen,)),
                               ),
                               //! price value
                               Container(

@@ -4,7 +4,7 @@ import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../product_list_feature/screens/product_list_screen.dart';
+import '../../../product_list_feature/presentation/screens/product_list_screen.dart';
 import '../../repository/blocs/cubit/cart_product_cubit.dart';
 
 
@@ -61,7 +61,7 @@ class CartListScreen extends StatelessWidget {
                               onTap: () async {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (contex) {
-                                  return ProductsList(title: "محصولات تمدونی");
+                                  return ProductsListScreen(title: "محصولات تمدونی");
                                 }));
                               },
                               child: Container(
