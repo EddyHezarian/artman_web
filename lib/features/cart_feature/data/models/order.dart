@@ -51,7 +51,7 @@ class OrderModel {
 
 class LineItemModel {
   int? productId;
-  double? total;
+  String? total;
   int? qty;
   LineItemModel({
     required this.productId,
@@ -70,7 +70,7 @@ class LineItemModel {
   LineItemModel.fromJson(Map<String, dynamic> json) {
     productId = json["product_id"];
     qty = json["quantity"];
-    total = double.parse(json["total"]);
+    total = json["total"];
   }
 
   Map<String, dynamic> toJson() {

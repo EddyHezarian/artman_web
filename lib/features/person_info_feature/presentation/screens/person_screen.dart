@@ -281,7 +281,7 @@ Widget userOptionContainer(
     margin: const EdgeInsets.all(7),
     decoration:
         BoxDecoration(borderRadius: BorderRadius.circular(15), color: color),
-    width: MediaQuery.of(context).size.width * 0.50,
+    width: MediaQuery.of(context).size.width * 0.60,
     height: 50,
     child: Row(
       children: [

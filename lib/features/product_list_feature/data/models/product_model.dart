@@ -10,33 +10,46 @@ part 'product_model.g.dart';
 class ProductModel { 
   @HiveField(0)
   int? id  ;
+
   @HiveField(1)
   List<int>? releatedProducts ;
+
   @HiveField(2)
   String?  name ;
+
   @HiveField(3)
   String?  description;
+
   @HiveField(4)
   String?  shortDescription ;
+
   @HiveField(5) 
   String?  sku ;
+
   @HiveField(6) 
   String?  price ;
+
   @HiveField(7) 
   String?  regularPrice ;
+
   @HiveField(8) 
   String?  salePrice ;
+
   @HiveField(9) 
   String?  stockStatus ;
+
   @HiveField(10) 
   late List<ImageSrc> images ;
+
   @HiveField(11) 
   late List<CategoryModel> categories;
+
   @HiveField(12)
-  late List<Attribute>? 
-  attributes;@HiveField(13)
-  String? slug;
+  late List<Attribute>? attributes;
   
+  @HiveField(13)
+  String? slug; 
+   
   ProductModel({
     this.id ,
     required this.name ,
@@ -52,6 +65,7 @@ class ProductModel {
     required this.categories ,
     this.attributes,
     this.slug,
+    
   });
 
   ProductModel.fromJson(Map<String, dynamic>json){

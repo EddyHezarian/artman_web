@@ -28,7 +28,7 @@ class WishlistCubit extends Cubit<WishlistState> {
   }
 
   //! write product to db
-  addWish(ProductModel model) async {
+  addWish(ProductModel  model) async {
     await Hive.openBox<ProductModel>("getwish")
         .then((value) => value.add(model))
         .then((value) => getWishBox());
@@ -48,5 +48,20 @@ class WishlistCubit extends Cubit<WishlistState> {
       });
       return value.delete(desiredKey);
     }).then((value) => getWishBox());
+  }  
+  
+  checkExist(ProductModel model) async {
+    bool flag = false ; 
+    await Hive.openBox<ProductModel>("getwish").then((value) {
+      final Map<dynamic, ProductModel> wishMap = value.toMap();
+      
+      wishMap.forEach((key, value) {
+        if (value.id == model.id) {
+        flag = true;
+        }
+      });
+      
+    });
+    return flag ;
   }
 }

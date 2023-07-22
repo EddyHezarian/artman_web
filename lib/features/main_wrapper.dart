@@ -21,7 +21,6 @@ class MainWrapper extends StatelessWidget {
         bottomNavigationBar: CustomeBottomNav(
           controller: _pageController,
         ),
-
         body: PageView(
           physics:
               const NeverScrollableScrollPhysics(), //! for prevent conflict in scrolling

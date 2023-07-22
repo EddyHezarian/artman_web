@@ -28,7 +28,7 @@ class _CustomeBottomNavState extends State<CustomeBottomNav> {
       //! content
       child:BlocBuilder<BottomNavCubit ,int>(builder: (context ,int state){
         return   SizedBox(
-        height: 63,
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -101,7 +101,7 @@ class _CustomeBottomNavState extends State<CustomeBottomNav> {
                             curve: Curves.easeInOut);
                       },
                       icon: 
-                       ImageIcon(
+                      ImageIcon(
                           AssetImage( state == 3 
                               ? IconsUrl.personFilled
                               : IconsUrl.person),

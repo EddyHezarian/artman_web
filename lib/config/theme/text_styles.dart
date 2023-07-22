@@ -44,8 +44,6 @@ fontFamily: "sens",
     fontWeight: FontWeight.w800,
     fontSize: 18,
   );
-
-
   //! category 
   static TextStyle titleOfPage = TextStyle(
     fontFamily: "sens", 
@@ -72,5 +70,4 @@ fontFamily: "sens",
     fontSize: 16 , 
     fontWeight: FontWeight.w700
     );
-
 }

@@ -37,7 +37,7 @@ class OrderDetailModel {
         lineItems!.add(LineItemModel.fromJson(element));
       });
     }
-    itemTotalAmount=lineItems!= null ? lineItems!.map<double>((e) => e.total!).reduce((value, element) => value+element):0 ;
+    itemTotalAmount=lineItems!= null ? lineItems!.map<double>((e) => double.parse(e.total!)).reduce((value, element) => value+element):0 ;
     totalAmount = double.parse(json["total"]);
     shippingTotal = double.parse(json["shipping_total"]);
   }

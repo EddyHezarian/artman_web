@@ -11,25 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class SearchBox extends StatelessWidget {
+Widget searchBox (BuildContext context)
+  { 
   final TextEditingController searchController = TextEditingController();
   final ProductApiProvider productApiProvider = locator();
-
-  SearchBox({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: const EdgeInsets.only(
-        right: 40,
-        top: 20,
-        left: 40,
+        right: 17,
+        top: 10,
+        left: 17,
       ),
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: 50,
+      width: MediaQuery.of(context).size.width * 0.95,
+      height: 45,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(11),
           color: ColorPallet.searchBox),
       child: Row(
         children: [
@@ -104,4 +100,4 @@ class SearchBox extends StatelessWidget {
       ),
     );
   }
-}
+

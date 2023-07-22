@@ -10,7 +10,7 @@ Widget trendCard({required int index  , ProductModel? model}  ){
   //! card for Trend products in home page .
 return Container(
   padding: const EdgeInsets.all(4),
-                    margin: index >0 ? const EdgeInsets.only(left: 8 ,) :const EdgeInsets.only(left: 8) ,
+                    margin:const EdgeInsets.only(left: 8) ,
                     width: 160,
                     decoration: BoxDecoration(
                       color: ColorPallet.cards,

@@ -25,12 +25,12 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       price: fields[6] as String?,
       regularPrice: fields[7] as String?,
       salePrice: fields[8] as String?,
-      slug: fields[13] as String?,
       stockStatus: fields[9] as String?,
       images: (fields[10] as List).cast<ImageSrc>(),
       releatedProducts: (fields[1] as List?)?.cast<int>(),
       categories: (fields[11] as List).cast<CategoryModel>(),
       attributes: (fields[12] as List?)?.cast<Attribute>(),
+      slug: fields[13] as String?,
     );
   }
 
@@ -65,7 +65,7 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(12)
       ..write(obj.attributes)
       ..writeByte(13)
-      ..write(obj.attributes);
+      ..write(obj.slug);
   }
 
   @override

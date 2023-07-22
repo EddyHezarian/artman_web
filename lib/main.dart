@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
       routes: const {
         //Todo compelet routes
       },
-      title: 'Flutter Demo',
+      title: 'string/app_name',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

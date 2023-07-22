@@ -28,7 +28,7 @@ class FavoriteScreen extends StatelessWidget {
           body: Column(
             children: [
               //! search box ----------------------------------------
-              SearchBox(),
+              searchBox(context),
               //! title-----------------------------------
               Padding(
                 padding: const EdgeInsets.all(10),

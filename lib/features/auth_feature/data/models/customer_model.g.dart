@@ -20,8 +20,8 @@ class CustomerModelAdapter extends TypeAdapter<CustomerModel> {
       firstName: fields[0] as String?,
       lastName: fields[1] as String?,
       password: fields[3] as String?,
-      id: fields[5] as int?,
       email: fields[2] as String?,
+      id: fields[5] as int?,
     )..username = fields[4] as String?;
   }
 
@@ -38,7 +38,7 @@ class CustomerModelAdapter extends TypeAdapter<CustomerModel> {
       ..writeByte(3)
       ..write(obj.password)
       ..writeByte(4)
-      ..write(obj.username)  
+      ..write(obj.username)
       ..writeByte(5)
       ..write(obj.id);
   }

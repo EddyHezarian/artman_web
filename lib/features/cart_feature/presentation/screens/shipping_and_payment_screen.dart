@@ -1,3 +1,6 @@
+// import 'dart:async';
+// import 'dart:ffi';
+
 import 'package:artman_web/config/conststants/api_const.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/features/cart_feature/data/models/customer_detail.dart';
@@ -6,20 +9,23 @@ import 'package:artman_web/features/cart_feature/data/remote_data/order_api_prov
 import 'package:artman_web/features/cart_feature/repository/blocs/cubit/cart_product_cubit.dart';
 import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/locator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+// import 'package:uni_links/uni_links.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// import 'package:zarinpal/zarinpal.dart';
 
 import '../../../../config/conststants/meassurments.dart';
 
 // ignore: must_be_immutable
 class ShippingAndPaymentScreen extends StatefulWidget {
-  final String  totalprice ;
-  const ShippingAndPaymentScreen({super.key , required this.totalprice});
+  final String totalprice;
+  const ShippingAndPaymentScreen({super.key, required this.totalprice});
 
   @override
-  State<ShippingAndPaymentScreen> createState() => _ShippingAndPaymentScreenState();
+  State<ShippingAndPaymentScreen> createState() =>
+      _ShippingAndPaymentScreenState();
 }
 
 class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
@@ -32,9 +38,10 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
   TextEditingController stateConrollere = TextEditingController();
   TextEditingController city = TextEditingController();
   TextEditingController postcode = TextEditingController();
-  bool isShowProgressIndicator =false ;
+  bool isShowProgressIndicator = false;
   List<LineItemModel> lineitemList = [];
   OrderAPiProvider orderAPiProvider = locator();
+  // PaymentRequest paymentRequest = PaymentRequest();
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +55,13 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Text("برای ادامه مشخصات خود را وارد کنید",
-              style: TextStyle(
-                                    fontSize: 16,
-                                    color: ColorPallet.mainTextColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: "sens"),
+              child: Text(
+                "برای ادامه مشخصات خود را وارد کنید",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: ColorPallet.mainTextColor,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "sens"),
               ),
             ),
             //! name
@@ -173,7 +181,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                 ],
               ),
             ),
-            //! address2  
+            //! address2
             Container(
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -329,7 +337,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                 ],
               ),
             ),
-            //! post code 
+            //! post code
             Container(
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -368,19 +376,19 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                 ],
               ),
             ),
-            
+
             const Divider(),
             //! paymemt
             BlocBuilder<CartProductCubit, CartProductState>(
               builder: (context, state) {
-                
                 return InkWell(
-                  onTap: ()async {
+                  onTap: () async {
                     var cubit = CartProductCubit.get(context);
                     for (var item in cubit.cartProductList!) {
-                      lineitemList.add(
-                        LineItemModel(productId: item.productId, qty: item.qty ,total: double.parse(item.price))
-                        ); 
+                      lineitemList.add(LineItemModel(
+                          productId: item.productId,
+                          qty: item.qty,
+                          total: item.price));
                     }
                     var shiping = Shipping(
                       address1: addrs1.text,
@@ -396,7 +404,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                     var order = OrderModel(
                         customerId: int.parse(ApiConstants.useridTMP),
                         paymentMethod: "paymentMethod",
-                        paymentMethodTitle: "paymentMethodTitle",
+                        paymentMethodTitle: "zarinpal",
                         setPaid: true,
                         transactionId: "2",
                         lineItems: lineitemList,
@@ -404,39 +412,87 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                         orderNumber: "1",
                         status: "completed",
                         orderDate: DateTime.now(),
-                        shipping: shiping
-                    );
-                    setState(() { isShowProgressIndicator = true ; });
+                        shipping: shiping);
+                    setState(() {
+                      isShowProgressIndicator = true;
+                    });
+
+                    // //! payment
+                    // paymentRequest
+                    //   ..setIsSandBox(true)
+                    //   ..setAmount(double.parse(widget.totalprice))
+                    //   ..setMerchantID("")
+                    //   ..setCallbackURL("https://eddy.dastyar.site");
+
+                    // ZarinPal().startPayment(paymentRequest,
+                    //     (status, paymentGatewayUri) {
+                    //   if (status == 100) {
+                    //     launchUrl(Uri.parse(paymentGatewayUri!),
+                    //         mode: LaunchMode.externalApplication);
+                    //   }
+                    // });
+                    // late StreamSubscription sub;
+                    // String recevedLink = '';
+                    // sub = linkStream.listen((String? link) {
+                    //   recevedLink = link!;
+                    //   if (recevedLink.toLowerCase().contains("status")) {
+                    //     String status = recevedLink.split("=").last;
+                    //     String authority = recevedLink
+                    //         .split("?")[1]
+                    //         .split("&")[0]
+                    //         .split("=")[1];
+                    //     ZarinPal().verificationPayment(status, authority, paymentRequest, 
+                    //     (isPaymentSuccess, refID, paymentRequest){
+                    //       if(isPaymentSuccess){
+                    //         debugPrint("success");
+                    //       }
+                    //       else{
+                    //         print("not ok");
+                    //       }
+
+                    //     });
+                    //   }
+
+                    // });
+ 
+                    //! submit order
                     await orderAPiProvider.creatOrder(order) == true
-                      ? ScaffoldMessenger.of(context)
+                        ? ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             content: Text('سفارش شما با موفقیت ثبت شد'),
-                            backgroundColor:  Color.fromARGB(255, 108, 255, 115),
+                            backgroundColor: Color.fromARGB(255, 108, 255, 115),
                           ))
-                      : ScaffoldMessenger.of(context)
+                        : ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                             content: Text('مشکلی توی ثبت سفارش رخ داده'),
                             backgroundColor: Color.fromARGB(255, 255, 171, 132),
                           ));
-                    setState(() { isShowProgressIndicator = false ; });
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return  MainWrapper();}));
+                    setState(() {
+                      isShowProgressIndicator = false;
+                    });
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MainWrapper();
+                    }));
                   },
-                  child: isShowProgressIndicator ? LoadingAnimationWidget.horizontalRotatingDots(
-                            size: 40, color: Colors.white) : Container(
-                    margin: const EdgeInsets.all(10),
-                    width: 140,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: ColorPallet.secondary,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: const Center(
-                        child: Text("پرداخت",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontFamily: "sens",
-                                fontWeight: FontWeight.bold))),
-                  ),
+                  child: isShowProgressIndicator
+                      ? LoadingAnimationWidget.horizontalRotatingDots(
+                          size: 40, color: Colors.white)
+                      : Container(
+                          margin: const EdgeInsets.all(10),
+                          width: 140,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: ColorPallet.secondary,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Center(
+                              child: Text("پرداخت",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontFamily: "sens",
+                                      fontWeight: FontWeight.bold))),
+                        ),
                 );
               },
             ),

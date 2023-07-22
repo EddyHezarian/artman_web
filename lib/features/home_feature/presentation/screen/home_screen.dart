@@ -72,13 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               //! search container  ------------------------------------------------
-              SearchBox(),
+              searchBox(context),
               const SizedBox(
                 height: 25,
               ),
               //! baner -------------------------------------------------
               SizedBox(
-                height: 180,
+                height: 150,
                 child: PageView.builder(
                   onPageChanged: (value) {},
                   allowImplicitScrolling: true,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 8,
               ),
               Center(
                 child: SmoothPageIndicator(
@@ -156,10 +156,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               //! amazing offer baneers --------------------------------
               Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
                   margin: const EdgeInsets.only(top: 14, bottom: 14),
                   width: double.infinity,
-                  height: 280,
+                  height: 345,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -174,15 +174,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       //! texts
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 11),
+                        padding: const EdgeInsets.only(bottom: 5, left: 17),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: InkWell(
-                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return ProductsListScreen(title:"تازه ترین ها",tag: "19",);
-                                }
-                              )
-                              ),
+                              onTap: () => Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return ProductsListScreen(
+                                  title: "تازه ترین ها",
+                                  tag: "19",
+                                );
+                              })),
                               child: Text(
                                 TextConsts.seeAll,
                                 style: TextStyles.seeAll,
@@ -339,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               //! terndings ----------------------------------------------------
               Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(top: 14, bottom: 14),
                   width: double.infinity,
                   height: 300,
@@ -419,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (model.hasData) {
           print(model.data!.length);
           return ListView.builder(
-              itemCount: 4,
+              itemCount: model.data!.length,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -436,10 +438,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                                 color: ColorPallet.background,
                                 borderRadius: BorderRadius.circular(8)),
-                            duration: const Duration(days: 2),
+                            duration: const Duration(hours: 20),
+                            separator: ":",
+                            separatorStyle: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                             height: 40,
                             width: 27,
-                            curve: Curves.bounceInOut,
+                            curve: Curves.easeInOutCubic,
                             textStyle: const TextStyle(
                                 color: Colors.black,
                                 fontFamily: "sens",
@@ -477,15 +484,15 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             var inc = data[index];
-            return InkWell( 
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return SingleProductScreen(model: inc,);
-                                }
-                              )
-                              );
-              },
-              child: trendCard(index: index, model: inc));
+            return InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return SingleProductScreen(
+                      model: inc,
+                    );
+                  }));
+                },
+                child: trendCard(index: index, model: inc));
           }),
     );
   }

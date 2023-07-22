@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../config/conststants/text_consts.dart';
@@ -52,23 +54,46 @@ class SingleProductScreen extends StatelessWidget {
                         child: const Icon(Icons.cancel)),
                     BlocBuilder<WishlistCubit, WishlistState>(
                       builder: (context, state) {
+                        bool flag = false ;
                         var cubit = WishlistCubit.get(context);
                         return Row(
                           children: [
                             IconButton(
                               icon: const Icon(Icons.favorite),
-                              onPressed: () {
+                              onPressed: () async {
+
+                                await Hive.openBox<ProductModel>("getwish")
+                                    .then((value) {
+                                  final Map<dynamic, ProductModel> wishMap =
+                                      value.toMap();
+                                  wishMap.forEach((key, value) {
+                                    if (value.id == model.id) {
+                                      flag = true ;
+                                    }
+                                  });
+                                });
+                                if(flag){
+                                  cubit.deleteProduct(model);
+                                  ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text("از علاقه مندی ها پاک شد"),
+                                  backgroundColor: Color.fromARGB(255, 255, 96, 57),
+                                ));
+                                }
+                                else{
                                 cubit.addWish(model);
                                 ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('به علاقه مندی ها اضافه شد'),
-                            backgroundColor: Colors.green,
-                          ));
+                                    .showSnackBar(const SnackBar(
+                                  content: Text('به علاقه مندی ها اضافه شد'),
+                                  backgroundColor: Colors.green,
+                                ));}
                               },
                             ),
+
                             const SizedBox(
                               width: 10,
                             ),
+                            //! share
                             InkWell(
                               child: Icon(Icons.share),
                               onTap: () {
@@ -356,7 +381,7 @@ class RelatedWidget extends StatelessWidget {
             ],
           ),
           //!cards
-          homeProductList()
+          Expanded(child: homeProductList())
         ]));
   }
 
@@ -365,11 +390,11 @@ class RelatedWidget extends StatelessWidget {
       future: productApiProvider.getProducts(relatedIDS: productIDS),
       builder: (context, AsyncSnapshot<List<ProductModel>> model) {
         if (model.hasData) {
-          print(model.data!.length);
           return buildHomeCartList(model.data!); //widget
         } else {
           return Center(
-            child: CircularProgressIndicator(
+            child: LoadingAnimationWidget.horizontalRotatingDots(
+              size: 40,
               color: ColorPallet.secondary,
             ),
           );

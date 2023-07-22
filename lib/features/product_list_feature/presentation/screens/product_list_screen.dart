@@ -8,6 +8,7 @@ import 'package:artman_web/features/product_list_feature/data/models/product_mod
 import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../repository/blocs/cubit/product_cubit.dart';
 
@@ -47,7 +48,7 @@ setupScrollController(context);
           
           return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(color: ColorPallet.secondary),
+              child: LoadingAnimationWidget.horizontalRotatingDots(size: 40,color: ColorPallet.secondary),
             ),
           );
         }
@@ -67,7 +68,7 @@ setupScrollController(context);
             body: Column(
               children: [
                 //! search box ----------------------------------------
-                SearchBox(),
+                searchBox(context),
                 //! title-----------------------------------
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -96,8 +97,11 @@ setupScrollController(context);
                           });
                           
                         }
-                        return CircularProgressIndicator(
-                          color: ColorPallet.secondary,
+                        return Center(
+                          child: LoadingAnimationWidget.horizontalRotatingDots(
+                            size: 40,
+                            color: ColorPallet.secondary,
+                          ),
                         );
                       }),
                 )
