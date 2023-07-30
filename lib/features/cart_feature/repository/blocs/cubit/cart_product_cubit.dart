@@ -15,7 +15,6 @@ class CartProductCubit extends Cubit<CartProductState> {
 
   //! read database
   getBox() async {
-    print("context");
     var box = await Hive.openBox<CartProductModel>("cartProduct");
     keys = [];
     keys = box.keys.cast<int>().toList();
@@ -26,7 +25,7 @@ class CartProductCubit extends Cubit<CartProductState> {
 
     emit(GetBoxState());
     box.close();
-  } 
+  }
 
   //! write product to db
   addProduct(CartProductModel model) async {
@@ -34,9 +33,8 @@ class CartProductCubit extends Cubit<CartProductState> {
         .then((value) => value.add(model))
         .then((value) => getBox());
     emit(AddToCartState());
-  } 
-  
-  
+  }
+
   //! delete
   deleteProduct(CartProductModel model) async {
     await Hive.openBox<CartProductModel>("cartProduct").then((value) {
@@ -50,14 +48,14 @@ class CartProductCubit extends Cubit<CartProductState> {
       return value.delete(desiredKey);
     }).then((value) => getBox());
   }
-  
+
   //! update
-  updateQTY(CartProductModel model)async{
+  updateQTY(CartProductModel model) async {
     await Hive.openBox<CartProductModel>("cartProduct").then((value) {
-      final Map<dynamic , CartProductModel>productMap = value.toMap();
-      dynamic desiredKey ; 
+      final Map<dynamic, CartProductModel> productMap = value.toMap();
+      dynamic desiredKey;
       productMap.forEach((key, value) {
-        if(value.productId == model.productId ){
+        if (value.productId == model.productId) {
           desiredKey = key;
         }
       });

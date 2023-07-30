@@ -2,6 +2,7 @@ import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
+import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/category_feature/presentation/cards/main_category_card.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import '../../data/model/category_model.dart';
 import '../../repository/blocs/cubit/category_cubit.dart';
 
 class CategortyScreen extends StatelessWidget {
-  const CategortyScreen({super.key});
+  static const String routName = "category";
+  final List<TagModel>? tags;
+  const CategortyScreen({super.key, this.tags});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,6 @@ class CategortyScreen extends StatelessWidget {
               if (state.categoryDataStatus is LoadingCategoryData) {
                 return Scaffold(
                   body: Center(
-                      
                       child: CircularProgressIndicator(
                     color: ColorPallet.secondary,
                   )),
@@ -33,15 +35,16 @@ class CategortyScreen extends StatelessWidget {
               }
               //* success
               if (state.categoryDataStatus is SuccessCategoryData) {
-                  SuccessCategoryData categoryDataCompleted = state.categoryDataStatus as SuccessCategoryData;
-                  List<CategoryModel> categoriesList = categoryDataCompleted.inc;
-                  //CategoriesModel categoriesModel = categoryDataCompleted.categoriesModel;
+                SuccessCategoryData categoryDataCompleted =
+                    state.categoryDataStatus as SuccessCategoryData;
+                List<CategoryModel> categoriesList = categoryDataCompleted.inc;
+                //CategoriesModel categoriesModel = categoryDataCompleted.categoriesModel;
 
                 return Scaffold(
                   body: Column(
                     children: [
                       //! search box ----------------------------------------
-                      searchBox(context),
+                      searchBox(context, tags),
                       //! title-----------------------------------
                       Padding(
                         padding: const EdgeInsets.all(10),
@@ -58,13 +61,14 @@ class CategortyScreen extends StatelessWidget {
                       //! list ----------------------------------------
                       Expanded(
                         child: ListView.builder(
-                            itemCount: categoriesList.length ,
+                            itemCount: categoriesList.length,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
-                              var data  = categoriesList[index];
+                              var data = categoriesList[index];
                               print(categoriesList.length);
                               //! card
-                              return mainCategoryCart(context, index , data );
+                              return mainCategoryCart(
+                                  context, index, data, tags);
                             }),
                       )
                     ],

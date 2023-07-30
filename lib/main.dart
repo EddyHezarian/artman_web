@@ -1,8 +1,10 @@
 import 'package:artman_web/config/bloc/bottomnav_cibit/bottomnav_cubit.dart';
 import 'package:artman_web/core/models/attrebutes.dart';
 import 'package:artman_web/core/models/image_model.dart';
+import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
 import 'package:artman_web/features/intro_feature/presentation/screens/splash_screen.dart';
+import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wishlist_cubit.dart';
 import 'package:artman_web/locator.dart';
@@ -20,26 +22,29 @@ import 'features/intro_feature/repository/splash_cubit/cubit/splash_cubit.dart';
 import 'features/person_info_feature/repository/blocs/customer_cubit/customer_cubit.dart';
 import 'features/person_info_feature/repository/blocs/my_orders_cubit/cubit/myorder_cubit.dart';
 import 'features/product_list_feature/repository/blocs/cubit/product_cubit.dart';
+
 const String productDBname = "cartProduct";
 Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-  // hive data base initilizing for customer , add to cart product , wishlist products 
-    Hive.registerAdapter(CartProductModelAdapter());
-    Hive.registerAdapter(CustomerModelAdapter());
-    Hive.registerAdapter(ProductModelAdapter());
-    Hive.registerAdapter(ImageSrcAdapter());
-    Hive.registerAdapter(CategoryModelAdapter());
-    Hive.registerAdapter(AttributeAdapter());
-    await Hive.initFlutter();
-  // for always beeing portrait  
+  WidgetsFlutterBinding.ensureInitialized();
+  // hive data base initilizing for customer , add to cart product , wishlist products
+  Hive.registerAdapter(CartProductModelAdapter());
+  Hive.registerAdapter(CustomerModelAdapter());
+  Hive.registerAdapter(ProductModelAdapter());
+  Hive.registerAdapter(ImageSrcAdapter());
+  Hive.registerAdapter(TagModelAdapter());
+  Hive.registerAdapter(CategoryModelAdapter());
+  Hive.registerAdapter(AttributeAdapter());
+  await Hive.initFlutter();
+  // for always beeing portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // init locator --> singletone instances of every repositpry and apiproviders in app
-  await initLocator(); 
+  await initLocator();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
         create: (context) => SplashCubit(),
-      ),BlocProvider(
+      ),
+      BlocProvider(
         create: (context) => CustomerCubit(),
       ),
       BlocProvider(
@@ -80,7 +85,9 @@ class MyApp extends StatelessWidget {
         Locale('fa'), // farsi
       ],
       initialRoute: '/',
-      routes: const {
+      routes: {
+        MainWrapper.routName: (context) => MainWrapper(),
+
         //Todo compelet routes
       },
       title: 'string/app_name',

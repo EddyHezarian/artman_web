@@ -7,68 +7,67 @@ import '../../../category_feature/data/model/category_model.dart';
 part 'product_model.g.dart';
 
 @HiveType(typeId: 2)
-class ProductModel { 
+class ProductModel {
   @HiveField(0)
-  int? id  ;
+  int? id;
 
   @HiveField(1)
-  List<int>? releatedProducts ;
+  List<int>? releatedProducts;
 
   @HiveField(2)
-  String?  name ;
+  String? name;
 
   @HiveField(3)
-  String?  description;
+  String? description;
 
   @HiveField(4)
-  String?  shortDescription ;
+  String? shortDescription;
 
-  @HiveField(5) 
-  String?  sku ;
+  @HiveField(5)
+  String? sku;
 
-  @HiveField(6) 
-  String?  price ;
+  @HiveField(6)
+  String? price;
 
-  @HiveField(7) 
-  String?  regularPrice ;
+  @HiveField(7)
+  String? regularPrice;
 
-  @HiveField(8) 
-  String?  salePrice ;
+  @HiveField(8)
+  String? salePrice;
 
-  @HiveField(9) 
-  String?  stockStatus ;
+  @HiveField(9)
+  String? stockStatus;
 
-  @HiveField(10) 
-  late List<ImageSrc> images ;
+  @HiveField(10)
+  late List<ImageSrc> images;
 
-  @HiveField(11) 
+  @HiveField(11)
   late List<CategoryModel> categories;
 
   @HiveField(12)
   late List<Attribute>? attributes;
-  
+
   @HiveField(13)
-  String? slug; 
-   
+  String? slug;
+
   ProductModel({
-    this.id ,
-    required this.name ,
-    this.description ,
-    this.shortDescription ,
-    this.sku ,
-    required this.price ,
-    this.regularPrice ,
-    this.salePrice ,
-    this.stockStatus ,
-    required this.images ,
+    this.id,
+    required this.name,
+    this.description,
+    this.shortDescription,
+    this.sku,
+    required this.price,
+    this.regularPrice,
+    this.salePrice,
+    this.stockStatus,
+    required this.images,
     this.releatedProducts,
-    required this.categories ,
+    required this.categories,
     this.attributes,
     this.slug,
-    
   });
 
-  ProductModel.fromJson(Map<String, dynamic>json){
+  ProductModel.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     name = json["name"];
     description = json["description"];
@@ -80,27 +79,23 @@ class ProductModel {
     salePrice = json["sale_price"];
     stockStatus = json["stock_status"];
     slug = json["slug"];
-    if(json["images"] != null){
+    if (json["images"] != null) {
       images = <ImageSrc>[];
-      json["images"].forEach((element){ images.add( ImageSrc.fromJson(element));} );
-      }
-    if(json["categories"] != null){
-      categories = <CategoryModel>[];
-      json["categories"].forEach((element){ categories.add( CategoryModel.fromJason(element));} );
-      }
-    if(json["attributes"] != null){
-      attributes = <Attribute>[];
-      json["attributes"].forEach((element){attributes!.add(Attribute.fromJson(element));});
+      json["images"].forEach((element) {
+        images.add(ImageSrc.fromJson(element));
+      });
     }
-    
-    
-
-
-
+    if (json["categories"] != null) {
+      categories = <CategoryModel>[];
+      json["categories"].forEach((element) {
+        categories.add(CategoryModel.fromJson(element));
+      });
+    }
+    if (json["attributes"] != null) {
+      attributes = <Attribute>[];
+      json["attributes"].forEach((element) {
+        attributes!.add(Attribute.fromJson(element));
+      });
+    }
   }
-
-
-
-
-
 }

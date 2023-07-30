@@ -17,11 +17,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 // import 'package:zarinpal/zarinpal.dart';
 
 import '../../../../config/conststants/meassurments.dart';
+import '../../../../core/models/tag_model.dart';
 
 // ignore: must_be_immutable
 class ShippingAndPaymentScreen extends StatefulWidget {
+  final List<TagModel>? args;
   final String totalprice;
-  const ShippingAndPaymentScreen({super.key, required this.totalprice});
+  const ShippingAndPaymentScreen(
+      {super.key, required this.totalprice, this.args});
 
   @override
   State<ShippingAndPaymentScreen> createState() =>
@@ -441,7 +444,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                     //         .split("?")[1]
                     //         .split("&")[0]
                     //         .split("=")[1];
-                    //     ZarinPal().verificationPayment(status, authority, paymentRequest, 
+                    //     ZarinPal().verificationPayment(status, authority, paymentRequest,
                     //     (isPaymentSuccess, refID, paymentRequest){
                     //       if(isPaymentSuccess){
                     //         debugPrint("success");
@@ -454,7 +457,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                     //   }
 
                     // });
- 
+
                     //! submit order
                     await orderAPiProvider.creatOrder(order) == true
                         ? ScaffoldMessenger.of(context)
@@ -472,7 +475,9 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                     });
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return MainWrapper();
+                      return MainWrapper(
+                        tags: widget.args,
+                      );
                     }));
                   },
                   child: isShowProgressIndicator

@@ -1,5 +1,4 @@
-
-
+import 'package:artman_web/core/data/tag_api_provider.dart';
 import 'package:artman_web/core/utiles/prefs_operator.dart';
 import 'package:artman_web/features/intro_feature/presentation/screens/intro_screen.dart';
 import 'package:artman_web/features/main_wrapper.dart';
@@ -18,81 +17,103 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     BlocProvider.of<SplashCubit>(context).checkConnectionEvent();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(child: 
-          DelayedWidget(
-            animationDuration: const Duration(seconds: 0),
-            animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-            delayDuration: const Duration(seconds: 1),
-            child: Image.asset("assets/icons/logo.png"))),
-          BlocConsumer<SplashCubit , SplashState>(
-            builder: (context , state){
-              //! if user is online -------------------------
-              if(state.connectionStatus is InitialConnection || state.connectionStatus is SuccessConnection){
-                    return Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: LoadingAnimationWidget.prograssiveDots(
+          Expanded(
+              child: DelayedWidget(
+                  animationDuration: const Duration(seconds: 0),
+                  animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
+                  delayDuration: const Duration(seconds: 1),
+                  child: Image.asset("assets/icons/logo.png"))),
+          BlocConsumer<SplashCubit, SplashState>(builder: (context, state) {
+            //! if user is online -------------------------
+            if (state.connectionStatus is InitialConnection ||
+                state.connectionStatus is SuccessConnection) {
+              return Directionality(
+                textDirection: TextDirection.ltr,
+                child: LoadingAnimationWidget.prograssiveDots(
+                  color: Colors.red,
+                  size: 50,
+                ),
+              );
+            }
+            //! if user is offline-----------------------------
+            if (state.connectionStatus is FailedConnection) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'به اینترنت متصل نیستید!',
+                    style: TextStyle(
                         color: Colors.red,
-                        size: 50,
-                      ),
-                    );
-                  }
-                  //! if user is offline-----------------------------
-                  if(state.connectionStatus is FailedConnection){
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('به اینترنت متصل نیستید!', style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500, fontFamily: "vazir"),),
-                        IconButton(
-                            splashColor: Colors.red,
-                            onPressed: (){
-                              /// check that we are online or not
-                              BlocProvider.of<SplashCubit>(context).checkConnectionEvent();
-                            },
-                            icon: const Icon(Icons.autorenew, color: Colors.red,))
-                      ],
-                    );
-                  }
-                  //! default value---------------
-                  return Container();
-            }, 
-            listener: (context , state){
-                  if(state.connectionStatus is SuccessConnection){
-                    
-                    goToHome(context);
-                  }
-            }),
-          const SizedBox(height: 30,) 
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "vazir"),
+                  ),
+                  IconButton(
+                      splashColor: Colors.red,
+                      onPressed: () {
+                        /// check that we are online or not
+                        BlocProvider.of<SplashCubit>(context)
+                            .checkConnectionEvent();
+                      },
+                      icon: const Icon(
+                        Icons.autorenew,
+                        color: Colors.red,
+                      ))
+                ],
+              );
+            }
+            //! default value---------------
+            return Container();
+          }, listener: (context, state) {
+            if (state.connectionStatus is SuccessConnection) {
+              goToHome(context);
+            }
+          }),
+          const SizedBox(
+            height: 30,
+          )
         ],
       ),
     );
   }
 }
 
-//! navigate page depend on prefsOprator which decleared that user saw onboarding pages befor or not 
+//! navigate page depend on prefsOprator which decleared that user saw onboarding pages befor or not
 
-Future<void> goToHome(BuildContext context)async{
-  
+Future<void> goToHome(
+  BuildContext context,
+) async {
+  TagApiProvider tagApiProvider = locator();
   PrefsOperator prefsOperator = locator<PrefsOperator>();
-  bool  shouldShowOnboadings = await prefsOperator.getIntroState();
+  bool shouldShowOnboadings = await prefsOperator.getIntroState();
 
-  if (shouldShowOnboadings){
-  Future.delayed(const Duration(seconds: 2)).then((value) => Navigator.pushReplacement( context, MaterialPageRoute(builder: (context) => IntroMainWrapper(),)));
+  if (shouldShowOnboadings) {
+    Future.delayed(const Duration(seconds: 2))
+        .then((value) => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => IntroMainWrapper(),
+            )));
+  } else {
+    tagApiProvider.getTags().then((value) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MainWrapper(
+          tags: value,
+        );
+      }));
+    });
   }
-  else 
-  {
-    Future.delayed(const Duration(seconds: 2)).then((value) =>  Navigator.pushReplacement(context , MaterialPageRoute(builder: (context)=> MainWrapper())) );
-  }
-  
 }

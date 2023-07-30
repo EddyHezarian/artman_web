@@ -4,15 +4,16 @@ import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/models/tag_model.dart';
 import '../../../product_list_feature/presentation/screens/product_list_screen.dart';
 import '../../repository/blocs/cubit/cart_product_cubit.dart';
 
-
 // ignore: must_be_immutable
 class CartListScreen extends StatelessWidget {
-  CartListScreen({super.key});
-  
-  int isAllowToCallGetProducts = 0 ; 
+  final List<TagModel>? args;
+  CartListScreen({super.key, this.args});
+
+  int isAllowToCallGetProducts = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,13 @@ class CartListScreen extends StatelessWidget {
       builder: (context, state) {
         int totalprice = 0;
         var cubit = CartProductCubit.get(context);
-        if(isAllowToCallGetProducts==0 ){isAllowToCallGetProducts =1; }
-        if(isAllowToCallGetProducts==1){isAllowToCallGetProducts =2;cubit.getBox(); }
+        if (isAllowToCallGetProducts == 0) {
+          isAllowToCallGetProducts = 1;
+        }
+        if (isAllowToCallGetProducts == 1) {
+          isAllowToCallGetProducts = 2;
+          cubit.getBox();
+        }
         List<CartProductModel> productList = [];
         for (var item in cubit.cartProductList!) {
           totalprice += int.parse(item.price) * item.qty;
@@ -45,46 +51,49 @@ class CartListScreen extends StatelessWidget {
             //! list
             body: productList.length == 0
                 ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "هیچ محصولی رو اضافه نکردی هنوز ",
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "sens"),
-                            textAlign: TextAlign.center,
-                          ),
-                          GestureDetector(
-                              onTap: () async {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (contex) {
-                                  return ProductsListScreen(title: "محصولات تمدونی");
-                                }));
-                              },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(top: 30, bottom: 12),
-                                width: 130,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: ColorPallet.secondary),
-                                child: Center(
-                                    child: Text(
-                                  "دیدن محصولات",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: "sens",
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorPallet.background),
-                                )),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "هیچ محصولی رو اضافه نکردی هنوز ",
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "sens"),
+                          textAlign: TextAlign.center,
+                        ),
+                        GestureDetector(
+                            onTap: () async {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (contex) {
+                                return ProductsListScreen(
+                                  title: "محصولات تمدونی",
+                                  args: args,
+                                );
+                              }));
+                            },
+                            child: Container(
+                              margin:
+                                  const EdgeInsets.only(top: 30, bottom: 12),
+                              width: 130,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: ColorPallet.secondary),
+                              child: Center(
+                                  child: Text(
+                                "دیدن محصولات",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "sens",
+                                    fontWeight: FontWeight.w700,
+                                    color: ColorPallet.background),
                               )),
-                        ],
-                      ),
-                    )
+                            )),
+                      ],
+                    ),
+                  )
                 : ListView.separated(
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: productList.length,
@@ -125,7 +134,7 @@ class CartListScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            
+
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -219,7 +228,7 @@ class CartListScreen extends StatelessWidget {
                         ),
                       );
                     }),
-            
+
             //! bottom
             bottomNavigationBar: SizedBox(
               height: 60,
@@ -227,8 +236,11 @@ class CartListScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   //! button
-                  CustomeButton(title: "ثبت", totalprice:  totalprice.toString() ,action: () {
-                  }),
+                  CustomeButton(
+                      args: args,
+                      title: "ثبت",
+                      totalprice: totalprice.toString(),
+                      action: () {}),
                   Column(
                     children: [
                       const Text("مبلغ نهایی"),

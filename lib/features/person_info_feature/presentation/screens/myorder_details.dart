@@ -16,6 +16,7 @@ class MyorderDetailScreen extends StatelessWidget {
       child: Scaffold(body: getOrderDetail(orderid)),
     );
   }
+
   Widget getOrderDetail(int id) {
     return FutureBuilder(
         future: orderAPiProvider.getOrderDetail(id),
@@ -75,44 +76,52 @@ class MyorderDetailScreen extends StatelessWidget {
                         color: Colors.amber,
                         width: 100,
                         height: 100,
-                        child:Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                            //! شناسه
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("شناسه محصول  : "),
-                                Text(model.data!.lineItems![index].productId.toString()),
+                                //! شناسه
+                                Row(
+                                  children: [
+                                    const Text("شناسه محصول  : "),
+                                    Text(model.data!.lineItems![index].productId
+                                        .toString()),
+                                  ],
+                                ),
+                                //! تعداد
+                                Row(
+                                  children: [
+                                    const Text("تعداد :  "),
+                                    Text(model.data!.lineItems![index].qty
+                                        .toString()),
+                                  ],
+                                ),
                               ],
                             ),
-                            //! تعداد
                             Row(
                               children: [
-                                const Text("تعداد :  "),
-                                Text(model.data!.lineItems![index].qty.toString()),
+                                const Text("قیمت محصول  :  "),
+                                Text(model.data!.lineItems![index].total
+                                    .toString())
                               ],
-                            ),
-                            ],
-                          ),
-                          Row(children: [
-                            const Text("قیمت محصول  :  "),
-                            Text(model.data!.lineItems![index].total.toString())
-                          ],)
-                        ],) ,
+                            )
+                          ],
+                        ),
                       );
                     },
                   ),
                 ),
-                //! amount 
+                //! amount
                 const Divider(),
-                Row(children: [
-                  const Text("قیمت کل  :  "),
-                  Text(model.data!.totalAmount.toString()),
-                  const Text("  تومان"),
-                ],)
+                Row(
+                  children: [
+                    const Text("قیمت کل  :  "),
+                    Text(model.data!.totalAmount.toString()),
+                    const Text("  تومان"),
+                  ],
+                )
               ],
             );
           } else {

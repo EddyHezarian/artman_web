@@ -2,6 +2,7 @@ import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
+import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
@@ -10,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({super.key});
+  final List<TagModel>? tags;
+  static const String routName = "wish";
+  const FavoriteScreen({super.key, this.tags});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,6 @@ class FavoriteScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = WishlistCubit.get(context);
         //! refresh box
-        //cubit.getWishBox();
         List<ProductModel> wishList = [];
         for (var item in cubit.wishList!) {
           wishList.add(item);
@@ -28,7 +30,7 @@ class FavoriteScreen extends StatelessWidget {
           body: Column(
             children: [
               //! search box ----------------------------------------
-              searchBox(context),
+              searchBox(context, tags),
               //! title-----------------------------------
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -48,23 +50,29 @@ class FavoriteScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var data = wishList[index];
                             //! card
-                          
                             return InkWell(
-                              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleProductScreen(model: data))),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SingleProductScreen(
+                                          model: data, args: tags))),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         //! image
                                         Container(
-                                            width:
-                                                MediaQuery.of(context).size.width *
-                                                    0.3,
-                                            height:
-                                                MediaQuery.of(context).size.height *
-                                                    0.17,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.17,
                                             decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                     //Todo make dynamic
@@ -108,8 +116,8 @@ class FavoriteScreen extends StatelessWidget {
                                             ),
                                             //!price
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.only(right: 10),
+                                              padding: const EdgeInsets.only(
+                                                  right: 10),
                                               child: Row(
                                                 children: [
                                                   Text(
@@ -144,49 +152,50 @@ class FavoriteScreen extends StatelessWidget {
                           }),
                     )
                   : Padding(
-                    padding: const EdgeInsets.only(top: 200),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "هیچ محصولی رو اضافه نکردی هنوز ",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "sens"),
-                          textAlign: TextAlign.center,
-                        ),
-                        //! see all products button
-                        GestureDetector(
-                            onTap: () async {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (contex) {
-                                return ProductsListScreen(title: "محصولات تمدونی");
-                              }));
-                            },
-                            child: Container(
-                              margin:
-                                  const EdgeInsets.only(top: 30, bottom: 12),
-                              width: 130,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: ColorPallet.secondary),
-                              child: Center(
-                                  child: Text(
-                                "دیدن محصولات",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: "sens",
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorPallet.background),
+                      padding: const EdgeInsets.only(top: 200),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "هیچ محصولی رو اضافه نکردی هنوز ",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Color.fromARGB(255, 0, 0, 0),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "sens"),
+                            textAlign: TextAlign.center,
+                          ),
+                          //! see all products button
+                          GestureDetector(
+                              onTap: () async {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (contex) {
+                                  return ProductsListScreen(
+                                      args: tags, title: "محصولات تمدونی");
+                                }));
+                              },
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.only(top: 30, bottom: 12),
+                                width: 130,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: ColorPallet.secondary),
+                                child: Center(
+                                    child: Text(
+                                  "دیدن محصولات",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: "sens",
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorPallet.background),
+                                )),
                               )),
-                            )),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
             ],
           ),
         );

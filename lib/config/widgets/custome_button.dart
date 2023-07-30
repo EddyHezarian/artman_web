@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../../core/models/tag_model.dart';
 import '../../features/auth_feature/data/models/customer_model.dart';
 import '../../features/cart_feature/presentation/screens/shipping_and_payment_screen.dart';
 import '../theme/color_pallet.dart';
 
 class CustomeButton extends StatelessWidget {
+  final List<TagModel>? args;
   const CustomeButton(
       {super.key,
+      this.args,
       required this.title,
       required this.totalprice,
       required this.action});
@@ -30,21 +33,22 @@ class CustomeButton extends StatelessWidget {
         }
         box.close();
 
-        customerBox.isNotEmpty ? Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ShippingAndPaymentScreen(
-            totalprice: totalprice,
-          );
-        })):  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text("اول باید ثبت نام کنی",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "sens")),
-                        backgroundColor: ColorPallet.secondary,
-                      ));
-
-        
+        customerBox.isNotEmpty
+            ? Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ShippingAndPaymentScreen(
+                  args: args,
+                  totalprice: totalprice,
+                );
+              }))
+            : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text("اول باید ثبت نام کنی",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "sens")),
+                backgroundColor: ColorPallet.secondary,
+              ));
       },
       child: Container(
         margin: const EdgeInsets.all(10),

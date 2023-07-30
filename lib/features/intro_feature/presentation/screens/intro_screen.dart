@@ -1,9 +1,12 @@
 import 'package:artman_web/config/theme/color_pallet.dart';
+import 'package:artman_web/core/data/tag_api_provider.dart';
+import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/core/utiles/prefs_operator.dart';
 import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:hive/hive.dart';
 
 class IntroMainWrapper extends StatelessWidget {
   static const routeName = "/intro_main_wrapper";
@@ -16,34 +19,43 @@ class IntroMainWrapper extends StatelessWidget {
     // final args = ModalRoute.of(context)!.settings.arguments as String;
     /// get device size
 
-    return 
+    return
 
-    //! register button 
-    OnBoardingSlider(
-      finishButtonText: 'ثبت نام',
-      onFinish: () {
-        //! update shared prefs --> user wouldn't see onboarding pages 
+        //! register button
+        OnBoardingSlider(
+      finishButtonText: 'بزن بریم',
+      onFinish: () async {
+        //! update shared prefs --> user wouldn't see onboarding pages
         PrefsOperator prefsOperator = locator<PrefsOperator>();
         prefsOperator.changeIntroState();
 
-        //! navigate to home page
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> MainWrapper()
-        ), (route) => false);
+        TagApiProvider tagApiProvider = locator();
+        tagApiProvider.getTags().then((tags) async {
+          for (var tag in tags) {
+            await Hive.openBox<TagModel>("tagBox")
+                .then((value) => value.add(tag));
+          }
+        }).then((value) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => MainWrapper()),
+              (route) => false);
+        });
       },
-      finishButtonStyle:  FinishButtonStyle(
+      finishButtonStyle: FinishButtonStyle(
         backgroundColor: ColorPallet.secondary,
       ),
-      //! skip button 
-      skipTextButton:  Text(
+      //! skip button
+      skipTextButton: Text(
         'بعدی',
         style: TextStyle(
           fontSize: 16,
-          color:ColorPallet.secondary,
+          color: ColorPallet.secondary,
           fontWeight: FontWeight.w600,
         ),
       ),
       //! trailing
-      trailing:  Text(
+      trailing: Text(
         'ورود',
         style: TextStyle(
           fontSize: 16,
@@ -55,23 +67,23 @@ class IntroMainWrapper extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  MainWrapper(),
+            builder: (context) => MainWrapper(),
           ),
         );
       },
-      
+
       controllerColor: ColorPallet.secondary,
       totalPage: 3,
       headerBackgroundColor: Colors.white,
       pageBackgroundColor: Colors.white,
-      //! back grounds 
+      //! back grounds
       background: [
         Image.asset(
           'assets/icons/signup_svg.png',
           height: 400,
         ),
         Image.asset(
-        'assets/icons/login.png',
+          'assets/icons/login.png',
           height: 400,
         ),
         Image.asset(
@@ -80,14 +92,14 @@ class IntroMainWrapper extends StatelessWidget {
         ),
       ],
       speed: 1.8,
-      
+
       pageBodies: [
-        //! page 1 
+        //! page 1
         Container(
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child:  Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -112,7 +124,7 @@ class IntroMainWrapper extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "sens",
-                  color:ColorPallet.mainTextColor,
+                  color: ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -120,12 +132,12 @@ class IntroMainWrapper extends StatelessWidget {
             ],
           ),
         ),
-        //! page 2 
+        //! page 2
         Container(
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child:  Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -150,7 +162,7 @@ class IntroMainWrapper extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "sens",
-                  color:ColorPallet.mainTextColor,
+                  color: ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),
@@ -158,12 +170,12 @@ class IntroMainWrapper extends StatelessWidget {
             ],
           ),
         ),
-        //! page 3 
+        //! page 3
         Container(
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child:  Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -188,7 +200,7 @@ class IntroMainWrapper extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "sens",
-                  color:ColorPallet.mainTextColor,
+                  color: ColorPallet.mainTextColor,
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
                 ),

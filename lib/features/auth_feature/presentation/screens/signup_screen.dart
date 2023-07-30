@@ -8,10 +8,12 @@ import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../../../core/models/tag_model.dart';
 import '../../data/models/customer_model.dart';
 
 class SignUpScren extends StatefulWidget {
-  const SignUpScren({super.key});
+  final List<TagModel>? args;
+  const SignUpScren({super.key, this.args});
 
   @override
   State<SignUpScren> createState() => _SignUpScrenState();
@@ -280,7 +282,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                           //* navigate to home page
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const LoginScreen();
+                            return LoginScreen(args: widget.args);
                           }));
                           setState(() {
                             showWaitingIndicator = false;
@@ -352,7 +354,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                     //todo navigate to login page
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return const LoginScreen();
+                      return LoginScreen(args: widget.args);
                     }));
                   },
                   child: const Text(

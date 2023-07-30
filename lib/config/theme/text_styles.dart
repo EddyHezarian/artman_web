@@ -1,36 +1,40 @@
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:flutter/material.dart';
+
 class TextStyles {
-  //! home page 
-  static TextStyle hint = TextStyle(//* hint for search box
-    color: ColorPallet.iconsColor,fontFamily: "sens",
+  //! home page
+  static TextStyle hint = TextStyle(
+    //* hint for search box
+    color: ColorPallet.iconsColor, fontFamily: "sens",
     fontWeight: FontWeight.w600,
     fontSize: 15,
   );
-  static TextStyle offersTitle= TextStyle( //!
-    color: ColorPallet.mainTextColor,fontFamily: "sens",
-    fontWeight: FontWeight.w900,
-    fontSize: 18,
-  );  
-  static TextStyle seeAll= TextStyle(fontFamily: "sens",
-    color: ColorPallet.background,
-    fontWeight: FontWeight.w600,
-    fontSize: 14,
-  );   
-  static TextStyle categoryLabel= TextStyle(
-fontFamily: "sens",
+  static TextStyle offersTitle = TextStyle(
+    //!
+    color: ColorPallet.mainTextColor, fontFamily: "sens",
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+  );
+  static TextStyle seeAll = TextStyle(
+    fontFamily: "sens",
+    color: ColorPallet.secondary,
+    fontWeight: FontWeight.w400,
+    fontSize: 11,
+  );
+  static TextStyle categoryLabel = TextStyle(
+    fontFamily: "sens",
     color: ColorPallet.mainTextColor,
     fontWeight: FontWeight.w600,
     fontSize: 14,
-  ); 
-   //! card
-  static TextStyle cardBargen= TextStyle(
+  );
+  //! card
+  static TextStyle cardBargen = const TextStyle(
     fontFamily: "sens",
-    color: ColorPallet.background,
+    color: Colors.white,
     fontWeight: FontWeight.w600,
-    fontSize: 14,
-  );   
-  static TextStyle oldPriceValue= TextStyle(
+    fontSize: 11,
+  );
+  static TextStyle oldPriceValue = TextStyle(
     fontFamily: "sens",
     color: ColorPallet.background,
     decoration: TextDecoration.lineThrough,
@@ -38,36 +42,32 @@ fontFamily: "sens",
     fontSize: 14,
   );
   //!Person
-  static TextStyle personName= TextStyle(
+  static TextStyle personName = TextStyle(
     fontFamily: "sens",
     color: ColorPallet.background,
     fontWeight: FontWeight.w800,
     fontSize: 18,
   );
-  //! category 
+  //! category
   static TextStyle titleOfPage = TextStyle(
-    fontFamily: "sens", 
-    color:  ColorPallet.mainTextColor , 
-    fontSize: 20 , 
-    fontWeight: FontWeight.bold
-    );
-    static TextStyle nameOfCategory = TextStyle(
-    fontFamily: "sens", 
-    color:  ColorPallet.mainTextColor , 
-    fontSize: 20 , 
-    fontWeight: FontWeight.bold
-    );   
+      fontFamily: "sens",
+      color: ColorPallet.mainTextColor,
+      fontSize: 20,
+      fontWeight: FontWeight.bold);
+  static TextStyle nameOfCategory = TextStyle(
+      fontFamily: "sens",
+      color: ColorPallet.mainTextColor,
+      fontSize: 20,
+      fontWeight: FontWeight.bold);
   static TextStyle countOfCategory = TextStyle(
-    fontFamily: "sens", 
-    color:  ColorPallet.hintColor , 
-    fontSize: 16 , 
-    fontWeight: FontWeight.w400
-    );  
+      fontFamily: "sens",
+      color: ColorPallet.hintColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w400);
   //! favorite
   static TextStyle nameOfPrudoctList = TextStyle(
-    fontFamily: "sens", 
-    color:  ColorPallet.mainTextColor , 
-    fontSize: 16 , 
-    fontWeight: FontWeight.w700
-    );
+      fontFamily: "sens",
+      color: ColorPallet.mainTextColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w700);
 }

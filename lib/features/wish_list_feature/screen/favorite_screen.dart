@@ -8,8 +8,11 @@ import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wis
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/models/tag_model.dart';
+
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({super.key});
+  final List<TagModel>? args;
+  const FavoriteScreen({super.key, this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class FavoriteScreen extends StatelessWidget {
           body: Column(
             children: [
               //! search box ----------------------------------------
-              searchBox(context),
+              searchBox(context, args),
               //! title-----------------------------------
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -47,7 +50,7 @@ class FavoriteScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             var data = wishList[index];
                             //! card
-                          
+
                             return Column(
                               children: [
                                 Row(
@@ -154,7 +157,8 @@ class FavoriteScreen extends StatelessWidget {
                               onTap: () async {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (contex) {
-                                  return ProductsListScreen(title: "محصولات تمدونی");
+                                  return ProductsListScreen(
+                                      title: "محصولات تمدونی");
                                 }));
                               },
                               child: Container(

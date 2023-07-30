@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../../../core/models/tag_model.dart';
 import '../../data/models/customer_model.dart';
 import '../../data/models/login_response_model.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final List<TagModel>? args;
+  const LoginScreen({super.key, this.args});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -173,8 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontFamily: "sens")),
                             backgroundColor: ColorPallet.secondary));
-                      } 
-                      else {
+                      } else {
                         String firstname = customer.data!.firstname!;
                         String lastname = customer.data!.lastname!;
                         String email = customer.data!.email!;
@@ -189,13 +190,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           showWaitingIndicator = false;
                         });
                         Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                            return MainWrapper();
-                            }
-                          ), 
-                          (route) => false
-                        );
+                            MaterialPageRoute(builder: (context) {
+                          return MainWrapper(tags: widget.args);
+                        }), (route) => false);
                       }
                     },
                     child: Container(

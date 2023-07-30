@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:artman_web/config/conststants/api_const.dart';
 import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
-import 'package:artman_web/features/main_wrapper.dart';
-
+import 'package:artman_web/features/home_feature/presentation/screen/home_screen.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wishlist_cubit.dart';
 import 'package:artman_web/locator.dart';
@@ -15,17 +14,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../../../config/conststants/text_consts.dart';
 import '../../../../config/functions/html_to_str.dart';
+import '../../../../core/models/tag_model.dart';
 import '../../../cart_feature/repository/blocs/cubit/cart_product_cubit.dart';
 import '../../../home_feature/presentation/widgets/trend_card.dart';
 import '../../data/remote_data/product_api_provider.dart';
 
 class SingleProductScreen extends StatelessWidget {
   final ProductModel model;
+  final List<TagModel>? args;
   const SingleProductScreen({
     Key? key,
+    this.args,
     required this.model,
   }) : super(key: key);
 
@@ -48,45 +49,47 @@ class SingleProductScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) {
-                            return MainWrapper();
+                            return HomeScreen(
+                              tags: args,
+                            );
                           }), (route) => false);
                         },
                         child: const Icon(Icons.cancel)),
                     BlocBuilder<WishlistCubit, WishlistState>(
                       builder: (context, state) {
-                        bool flag = false ;
+                        bool flag = false;
                         var cubit = WishlistCubit.get(context);
                         return Row(
                           children: [
                             IconButton(
                               icon: const Icon(Icons.favorite),
                               onPressed: () async {
-
                                 await Hive.openBox<ProductModel>("getwish")
                                     .then((value) {
                                   final Map<dynamic, ProductModel> wishMap =
                                       value.toMap();
                                   wishMap.forEach((key, value) {
                                     if (value.id == model.id) {
-                                      flag = true ;
+                                      flag = true;
                                     }
                                   });
                                 });
-                                if(flag){
+                                if (flag) {
                                   cubit.deleteProduct(model);
                                   ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text("از علاقه مندی ها پاک شد"),
-                                  backgroundColor: Color.fromARGB(255, 255, 96, 57),
-                                ));
+                                      .showSnackBar(const SnackBar(
+                                    content: Text("از علاقه مندی ها پاک شد"),
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 96, 57),
+                                  ));
+                                } else {
+                                  cubit.addWish(model);
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('به علاقه مندی ها اضافه شد'),
+                                    backgroundColor: Colors.green,
+                                  ));
                                 }
-                                else{
-                                cubit.addWish(model);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text('به علاقه مندی ها اضافه شد'),
-                                  backgroundColor: Colors.green,
-                                ));}
                               },
                             ),
 
@@ -268,6 +271,7 @@ class SingleProductScreen extends StatelessWidget {
                 model.releatedProducts!.length > 0
                     ? RelatedWidget(
                         productIDS: model.releatedProducts!,
+                        args: args,
                       )
                     : const SizedBox(),
               ],
@@ -342,7 +346,8 @@ List<String> banerimg = [
 ];
 
 class RelatedWidget extends StatelessWidget {
-  RelatedWidget({super.key, required this.productIDS});
+  final List<TagModel>? args;
+  RelatedWidget({super.key, required this.productIDS, this.args});
   final ProductApiProvider productApiProvider = locator();
   final List<int> productIDS;
 
@@ -381,16 +386,16 @@ class RelatedWidget extends StatelessWidget {
             ],
           ),
           //!cards
-          Expanded(child: homeProductList())
+          Expanded(child: homeProductList(args))
         ]));
   }
 
-  Widget homeProductList() {
+  Widget homeProductList(List<TagModel>? args) {
     return FutureBuilder(
       future: productApiProvider.getProducts(relatedIDS: productIDS),
       builder: (context, AsyncSnapshot<List<ProductModel>> model) {
         if (model.hasData) {
-          return buildHomeCartList(model.data!); //widget
+          return buildHomeCartList(model.data!, args); //widget
         } else {
           return Center(
             child: LoadingAnimationWidget.horizontalRotatingDots(
@@ -403,7 +408,7 @@ class RelatedWidget extends StatelessWidget {
     );
   }
 
-  Widget buildHomeCartList(List<ProductModel> data) {
+  Widget buildHomeCartList(List<ProductModel> data, List<TagModel>? args) {
     return SizedBox(
       height: 220,
       child: ListView.builder(
@@ -412,7 +417,16 @@ class RelatedWidget extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             var inc = data[index];
-            return trendCard(index: index, model: inc);
+            return InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return SingleProductScreen(
+                      model: inc,
+                      args: args,
+                    );
+                  }));
+                },
+                child: trendCard(model: inc));
           }),
     );
   }

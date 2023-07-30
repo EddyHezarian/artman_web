@@ -33,23 +33,19 @@ class ProductCubit extends Cubit<ProductState> {
         page++;
         final products = (state as ProductLoading).oldProduct;
         products.addAll(newProducts);
-        emit(ProductLoaded(products)
-        );
-        }
-      );
+        emit(ProductLoaded(products));
+      });
     }
     if (tag != null) {
       isfirstCall == true ? page = 1 : page;
       productApiProvider
-          .getProducts(skutitle: tag, pageNumber: page, pageSize: "7")
+          .getProducts(tagid: tag, pageNumber: page, pageSize: "7")
           .then((newProducts) {
         page++;
         final products = (state as ProductLoading).oldProduct;
         products.addAll(newProducts);
-        emit(ProductLoaded(products)
-        );
-      }
-      );
+        emit(ProductLoaded(products));
+      });
     }
     if (search != null) {
       isfirstCall == true ? page = 1 : page;
@@ -59,10 +55,8 @@ class ProductCubit extends Cubit<ProductState> {
         page++;
         final products = (state as ProductLoading).oldProduct;
         products.addAll(newProducts);
-        emit(ProductLoaded(products)
-        );
-        }
-      );
+        emit(ProductLoaded(products));
+      });
     }
     if (search == null && category == null && tag == null) {
       isfirstCall == true ? page = 1 : page;
@@ -72,11 +66,8 @@ class ProductCubit extends Cubit<ProductState> {
         page++;
         final products = (state as ProductLoading).oldProduct;
         products.addAll(newProducts);
-        emit(ProductLoaded(products)
-        );
-      }
-      );
+        emit(ProductLoaded(products));
+      });
     }
-
   }
 }

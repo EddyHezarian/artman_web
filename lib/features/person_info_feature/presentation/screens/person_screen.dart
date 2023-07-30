@@ -8,18 +8,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/models/tag_model.dart';
+
 class PersonScreen extends StatelessWidget {
-  const PersonScreen({super.key});
-  
+  final List<TagModel>? args;
+  const PersonScreen({super.key, this.args});
+
   @override
   Widget build(BuildContext context) {
-    int allowToCallgetCustomer = 0 ;//! for memory managment we want to call cubit.getCustomer only once and if value of this variable is 1 that means getCustomer will called
+    int allowToCallgetCustomer =
+        0; //! for memory managment we want to call cubit.getCustomer only once and if value of this variable is 1 that means getCustomer will called
     return BlocBuilder<CustomerCubit, CustomerState>(
       builder: (context, state) {
-
         var cubit = CustomerCubit.get(context);
-        if(allowToCallgetCustomer==0){allowToCallgetCustomer=1;}
-        if(allowToCallgetCustomer == 1){cubit.getCustomer();allowToCallgetCustomer=2;}
+        if (allowToCallgetCustomer == 0) {
+          allowToCallgetCustomer = 1;
+        }
+        if (allowToCallgetCustomer == 1) {
+          cubit.getCustomer();
+          allowToCallgetCustomer = 2;
+        }
 
         return SafeArea(
             child: Scaffold(
@@ -55,7 +63,10 @@ class PersonScreen extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context){return const SignUpScren();}));
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return SignUpScren(args: args);
+                                }));
                               },
                               child: Container(
                                 width: 100,
@@ -67,7 +78,8 @@ class PersonScreen extends StatelessWidget {
                                   child: Text(
                                     style: TextStyle(
                                         fontSize: 17,
-                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
                                         fontWeight: FontWeight.bold,
                                         fontFamily: "sens"),
                                     TextConsts.signup,
@@ -170,27 +182,25 @@ class PersonScreen extends StatelessWidget {
                     //! whatsapp
                     IconButton(
                         iconSize: 50,
-                        onPressed: () async{
-                        Uri phoneno = Uri.parse('tel:+989391556862');
+                        onPressed: () async {
+                          Uri phoneno = Uri.parse('tel:+989391556862');
                           if (await launchUrl(phoneno)) {
                             //dialer opened
                           } else {
                             //dailer is not opened
                           }
                         },
-
                         icon: Image.asset(IconsUrl.whatsappIcon)),
                     //! web
                     IconButton(
                         iconSize: 50,
-                        onPressed: () async{
-                            Uri url = Uri.parse('https://eddy.dastyar.site');
+                        onPressed: () async {
+                          Uri url = Uri.parse('https://eddy.dastyar.site');
                           if (await launchUrl(url)) {
                             //dialer opened
                           } else {
                             //dailer is not opened
                           }
-
                         },
                         icon: Image.asset(IconsUrl.websiteIcon)),
                     //! call
@@ -213,10 +223,12 @@ class PersonScreen extends StatelessWidget {
               InkWell(
                   onTap: () {
                     if (cubit.customerBox!.isNotEmpty) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context){return const MyOrdersScreen() ; } ));
-                  }
-                  else{
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const MyOrdersScreen();
+                      }));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Text("اول باید ثبت نام کنی",
                             style: TextStyle(
                                 fontSize: 14,
@@ -225,26 +237,25 @@ class PersonScreen extends StatelessWidget {
                                 fontFamily: "sens")),
                         backgroundColor: ColorPallet.secondary,
                       ));
-                  }
+                    }
                   },
                   child: userOptionContainer(context, ColorPallet.searchBox,
-                      "سفارش های من", Icons.cloud)
-              ),
+                      "سفارش های من", Icons.cloud)),
 
               InkWell(
                 onTap: () {
                   if (cubit.customerBox!.isNotEmpty) {
                     cubit.deleteCustomer(cubit.customerBox![0]);
-                  }else{
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text("اول باید ثبت نام کنی",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "sens")),
-                        backgroundColor: ColorPallet.secondary,
-                      ));
+                      content: const Text("اول باید ثبت نام کنی",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "sens")),
+                      backgroundColor: ColorPallet.secondary,
+                    ));
                   }
                 },
                 child: userOptionContainer(context, ColorPallet.secondary,
