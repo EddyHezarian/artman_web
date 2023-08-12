@@ -1,18 +1,15 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/models/tag_model.dart';
 import '../../data/model/category_model.dart';
 
-Widget mainCategoryCart(BuildContext context, int index, CategoryModel model,
-    List<TagModel>? args) {
+Widget mainCategoryCart(BuildContext context, int index, CategoryModel model,) {
   return InkWell(
     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ProductsListScreen(
-        args: args,
         category: model.categoryId.toString(),
         title: model.categoryName!,
       );
@@ -23,7 +20,7 @@ Widget mainCategoryCart(BuildContext context, int index, CategoryModel model,
       height: 100,
       decoration: BoxDecoration(
           color: ColorPallet.searchBox,
-          borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
+          borderRadius: BorderRadius.circular(Dimens.boxBorderRadius)),
       child: Row(
         children: [
           //! product cover
@@ -33,8 +30,7 @@ Widget mainCategoryCart(BuildContext context, int index, CategoryModel model,
             height: 90,
             decoration: BoxDecoration(
                 image: DecorationImage(image: NetworkImage(model.image!.url!)),
-                borderRadius:
-                    BorderRadius.circular(Meassurments.boxBorderRadius)),
+                borderRadius: BorderRadius.circular(Dimens.boxBorderRadius)),
           ),
           //! product info
           Padding(

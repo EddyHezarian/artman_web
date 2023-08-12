@@ -1,4 +1,6 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/features/auth_feature/presentation/screens/signup_screen.dart';
 import 'package:artman_web/features/auth_feature/data/remote_data/customer_api_provider.dart';
@@ -8,14 +10,11 @@ import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
-import '../../../../core/models/tag_model.dart';
 import '../../data/models/customer_model.dart';
 import '../../data/models/login_response_model.dart';
 
 class LoginScreen extends StatefulWidget {
-  final List<TagModel>? args;
-  const LoginScreen({super.key, this.args});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -74,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 45,
                     decoration: BoxDecoration(
                         borderRadius:
-                            BorderRadius.circular(Meassurments.boxBorderRadius),
+                            BorderRadius.circular(Dimens.boxBorderRadius),
                         color: ColorPallet.background,
                         border:
                             Border.all(width: 2, color: ColorPallet.searchBox)),
@@ -191,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                         Navigator.pushAndRemoveUntil(context,
                             MaterialPageRoute(builder: (context) {
-                          return MainWrapper(tags: widget.args);
+                          return MainWrapper();
                         }), (route) => false);
                       }
                     },

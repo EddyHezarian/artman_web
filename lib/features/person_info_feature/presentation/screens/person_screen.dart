@@ -8,11 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/models/tag_model.dart';
 
 class PersonScreen extends StatelessWidget {
-  final List<TagModel>? args;
-  const PersonScreen({super.key, this.args});
+  
+  const PersonScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class PersonScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (context) {
-                                  return SignUpScren(args: args);
+                                  return const SignUpScren();
                                 }));
                               },
                               child: Container(

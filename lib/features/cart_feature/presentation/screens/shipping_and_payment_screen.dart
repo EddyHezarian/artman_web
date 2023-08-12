@@ -16,7 +16,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:zarinpal/zarinpal.dart';
 
-import '../../../../config/conststants/meassurments.dart';
+import '../../../../config/conststants/dimens.dart';
 import '../../../../core/models/tag_model.dart';
 
 // ignore: must_be_immutable
@@ -74,8 +74,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -113,8 +112,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -152,8 +150,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -191,8 +188,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -230,8 +226,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -269,8 +264,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -308,8 +302,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -347,8 +340,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(Meassurments.boxBorderRadius),
+                  borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                   color: ColorPallet.background,
                   border: Border.all(width: 2, color: ColorPallet.searchBox)),
               child: Row(
@@ -476,7 +468,7 @@ class _ShippingAndPaymentScreenState extends State<ShippingAndPaymentScreen> {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
                       return MainWrapper(
-                        tags: widget.args,
+                        
                       );
                     }));
                   },

@@ -11,6 +11,20 @@ class ColorPallet {
   //static Color  mainTextColor= const Color.fromARGB(255, 45, 45, 45);
   // static Color  subTextColor= const Color.fromARGB(255, 255, 255, 255);
 
+  static Color primary = const Color(0xffDC0F35);
+  static Color backGround = const Color(0xffffffff);
+  static Color categoryCard = const Color(0xffF1F1F1);
+  static Color searchbox = const Color(0xffF8F8F8);
+  static Color productCard = const Color(0xffFFFFFF);
+  static Color mainText = const Color(0xff020202);
+  static Color subText = const Color(0xffD4D4D4);
+  static Color onPrimary = const Color(0xffffffff);
+
+
+
+
+
+
   static Color hintColor = const Color(0xFF9A9A9A);
   static Color mainTextColor = const Color(0xFF4f4f4f);
   static Color subTextColor = const Color(0xFF9A9A9A);

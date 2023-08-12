@@ -1,3 +1,4 @@
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/conststants/icon_urls.dart';
 import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
@@ -10,17 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../core/models/tag_model.dart';
-
-Widget searchBox(BuildContext context, List<TagModel>? args) {
+Widget searchBox(BuildContext context,) {
   final TextEditingController searchController = TextEditingController();
   final ProductApiProvider productApiProvider = locator();
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 19),
     margin: const EdgeInsets.only(
-      right: 45,
+      right: Dimens.sideMarginStart,
       top: 42,
-      left: 32,
+      left: Dimens.sideMarginend,
     ),
     width: MediaQuery.of(context).size.width * 0.95,
     height: 57,
@@ -30,22 +29,24 @@ Widget searchBox(BuildContext context, List<TagModel>? args) {
       children: [
         Expanded(
             child: TypeAheadField(
-          loadingBuilder: (context) {
-            return Center(
-                child: LoadingAnimationWidget.horizontalRotatingDots(
-                    color: ColorPallet.secondary, size: 40));
-          },
-          itemSeparatorBuilder: (context, index) => const Divider(),
-          suggestionsBoxDecoration: SuggestionsBoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          //! loadingBuilder: (context) => ,
-          suggestionsCallback: (String prefix) {
+          
+
+          //! droped list of items 
+           suggestionsCallback: (String prefix) {
             return productApiProvider.getProducts(
               pageSize: "4",
               strSearch: prefix,
             );
           },
+
+          loadingBuilder: (context) {
+            return Center(
+                child: LoadingAnimationWidget.horizontalRotatingDots(
+                    color: ColorPallet.secondary, size: 40
+                )
+            );
+          },
+
           itemBuilder: (context, ProductModel model) {
             return ListTile(
               leading: const Icon(Icons.shopping_bag_rounded),
@@ -58,11 +59,17 @@ Widget searchBox(BuildContext context, List<TagModel>? args) {
               ),
             );
           },
+          suggestionsBoxDecoration: SuggestionsBoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+
+          itemSeparatorBuilder: (context, index) => const Divider(),
+        
+          //! input decoration
           textFieldConfiguration: TextFieldConfiguration(
               onEditingComplete: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return ProductsListScreen(
-                        args: args,
                         search: searchController.text,
                         title: searchController.text);
                   })),
@@ -74,7 +81,9 @@ Widget searchBox(BuildContext context, List<TagModel>? args) {
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                       fontFamily: "sens"))),
+          
           animationDuration: const Duration(milliseconds: 100),
+          //
           noItemsFoundBuilder: (context) {
             return const ListTile(
               title: Text("محصولی یافت نشد.",
@@ -90,7 +99,6 @@ Widget searchBox(BuildContext context, List<TagModel>? args) {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return SingleProductScreen(
                 model: suggestion,
-                args: args,
               );
             }));
           },

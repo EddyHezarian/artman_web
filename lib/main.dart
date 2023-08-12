@@ -4,7 +4,6 @@ import 'package:artman_web/core/models/image_model.dart';
 import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/cart_feature/data/models/cart_product.dart';
 import 'package:artman_web/features/intro_feature/presentation/screens/splash_screen.dart';
-import 'package:artman_web/features/main_wrapper.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wishlist_cubit.dart';
 import 'package:artman_web/locator.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'features/auth_feature/data/models/customer_model.dart';
 import 'features/cart_feature/repository/blocs/cubit/cart_product_cubit.dart';
 import 'features/category_feature/data/model/category_model.dart';
@@ -26,6 +24,14 @@ import 'features/product_list_feature/repository/blocs/cubit/product_cubit.dart'
 const String productDBname = "cartProduct";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+      
+      ));
+
   // hive data base initilizing for customer , add to cart product , wishlist products
   Hive.registerAdapter(CartProductModelAdapter());
   Hive.registerAdapter(CustomerModelAdapter());
@@ -85,12 +91,7 @@ class MyApp extends StatelessWidget {
         Locale('fa'), // farsi
       ],
       initialRoute: '/',
-      routes: {
-        MainWrapper.routName: (context) => MainWrapper(),
-
-        //Todo compelet routes
-      },
-      title: 'string/app_name',
+      title: 'MyStore',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

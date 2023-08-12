@@ -8,11 +8,9 @@ import 'package:artman_web/features/wish_list_feature/repository/blocs/cubit/wis
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/models/tag_model.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  final List<TagModel>? args;
-  const FavoriteScreen({super.key, this.args});
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class FavoriteScreen extends StatelessWidget {
           body: Column(
             children: [
               //! search box ----------------------------------------
-              searchBox(context, args),
+              searchBox(context),
               //! title-----------------------------------
               Padding(
                 padding: const EdgeInsets.all(10),

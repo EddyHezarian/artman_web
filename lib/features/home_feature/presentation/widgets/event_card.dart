@@ -1,4 +1,4 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ Widget eventCard(ProductModel model) {
     width: 140,
     decoration: BoxDecoration(
         color: ColorPallet.cards2,
-        borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
+        borderRadius: BorderRadius.circular(Dimens.boxBorderRadius)),
     child: Column(
       children: [
         //! image
@@ -64,7 +64,7 @@ Widget eventCard(ProductModel model) {
                 ),
                 child: Center(
                     child: Text(
-                  "${calculatePercentOff(double.parse(model.salePrice!), double.parse(model.regularPrice!)).toInt().toString()}%"
+                  "${calculateOffPercent(double.parse(model.salePrice!), double.parse(model.regularPrice!)).toInt().toString()}%"
                       .toPersianDigit(),
                   style: TextStyles.cardBargen,
                   textAlign: TextAlign.center,

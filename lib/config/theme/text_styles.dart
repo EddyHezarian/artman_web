@@ -2,6 +2,20 @@ import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {
+
+//  static TextStyle hint = TextStyle(
+//     //* hint for search box
+//     color: ColorPallet.iconsColor, fontFamily: "sens",
+//     fontWeight: FontWeight.w600,
+//     fontSize: 15,
+//   );
+
+
+
+
+
+
+
   //! home page
   static TextStyle hint = TextStyle(
     //* hint for search box

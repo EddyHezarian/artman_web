@@ -30,6 +30,7 @@ Future<void> initLocator() async {
   locator.registerSingleton<ProductApiProvider>(ProductApiProvider());
 //! order providers
   locator.registerSingleton<OrderAPiProvider>(
-      OrderAPiProvider()); //! order providers
+      OrderAPiProvider());
+//! order providers
   locator.registerSingleton<TagApiProvider>(TagApiProvider());
 }

@@ -2,7 +2,6 @@ import 'package:artman_web/config/conststants/text_consts.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
-import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
@@ -11,9 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  final List<TagModel>? tags;
   static const String routName = "wish";
-  const FavoriteScreen({super.key, this.tags});
+  const FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class FavoriteScreen extends StatelessWidget {
           body: Column(
             children: [
               //! search box ----------------------------------------
-              searchBox(context, tags),
+              searchBox(context,),
               //! title-----------------------------------
               Padding(
                 padding: const EdgeInsets.all(10),
@@ -55,7 +53,7 @@ class FavoriteScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SingleProductScreen(
-                                          model: data, args: tags))),
+                                          model: data,))),
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),
@@ -172,7 +170,7 @@ class FavoriteScreen extends StatelessWidget {
                                 Navigator.push(context,
                                     MaterialPageRoute(builder: (contex) {
                                   return ProductsListScreen(
-                                      args: tags, title: "محصولات تمدونی");
+                                       title: "محصولات تمدونی");
                                 }));
                               },
                               child: Container(

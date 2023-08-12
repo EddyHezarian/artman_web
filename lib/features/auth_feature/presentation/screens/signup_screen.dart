@@ -1,4 +1,4 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/features/auth_feature/presentation/screens/login_screen.dart';
 import 'package:artman_web/features/auth_feature/data/remote_data/customer_api_provider.dart';
@@ -8,12 +8,10 @@ import 'package:artman_web/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../../../../core/models/tag_model.dart';
 import '../../data/models/customer_model.dart';
 
 class SignUpScren extends StatefulWidget {
-  final List<TagModel>? args;
-  const SignUpScren({super.key, this.args});
+  const SignUpScren({super.key});
 
   @override
   State<SignUpScren> createState() => _SignUpScrenState();
@@ -101,8 +99,7 @@ class _SignUpScrenState extends State<SignUpScren> {
             width: MediaQuery.of(context).size.width * 0.8,
             height: 45,
             decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(Meassurments.boxBorderRadius),
+                borderRadius: BorderRadius.circular(Dimens.boxBorderRadius),
                 color: ColorPallet.background,
                 border: Border.all(width: 2, color: ColorPallet.searchBox)),
             child: Row(
@@ -282,7 +279,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                           //* navigate to home page
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return LoginScreen(args: widget.args);
+                            return LoginScreen();
                           }));
                           setState(() {
                             showWaitingIndicator = false;
@@ -354,7 +351,7 @@ class _SignUpScrenState extends State<SignUpScren> {
                     //todo navigate to login page
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return LoginScreen(args: widget.args);
+                      return const LoginScreen();
                     }));
                   },
                   child: const Text(

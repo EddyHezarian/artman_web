@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
-import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/product_list_feature/data/models/product_model.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +16,8 @@ class ProductsListScreen extends StatelessWidget {
       this.category,
       this.tag,
       required this.title,
-      this.args});
-  final List<TagModel>? args;
+      });
+
   final String? search;
   final String? tag;
   final String? category;
@@ -95,7 +94,7 @@ class ProductsListScreen extends StatelessWidget {
             body: Column(
               children: [
                 //! search box ----------------------------------------
-                searchBox(context, args),
+                searchBox(context,),
                 //! title-----------------------------------
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -115,7 +114,7 @@ class ProductsListScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         if (index < products.length) {
                           var data = products[index];
-                          return cartForProductList(context, data, args!);
+                          return cartForProductList(context, data);
                         } else {
                           Timer(const Duration(milliseconds: 30), () {
                             setupScrollController(context);
@@ -141,13 +140,13 @@ class ProductsListScreen extends StatelessWidget {
 }
 
 Widget cartForProductList(
-    BuildContext context, ProductModel model, List<TagModel> args) {
+    BuildContext context, ProductModel model) {
   return InkWell(
     onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
             builder: ((context) => SingleProductScreen(
-                  args: args,
+                  
                   model: model,
                 )))),
     child: Padding(

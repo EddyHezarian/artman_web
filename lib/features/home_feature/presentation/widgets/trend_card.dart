@@ -1,4 +1,4 @@
-import 'package:artman_web/config/conststants/meassurments.dart';
+import 'package:artman_web/config/conststants/dimens.dart';
 import 'package:artman_web/config/functions/calculate_off_percent.dart';
 import 'package:artman_web/config/theme/color_pallet.dart';
 import 'package:artman_web/config/theme/text_styles.dart';
@@ -15,7 +15,7 @@ Widget trendCard({ProductModel? model}) {
     width: 160,
     decoration: BoxDecoration(
         color: ColorPallet.cards,
-        borderRadius: BorderRadius.circular(Meassurments.boxBorderRadius)),
+        borderRadius: BorderRadius.circular(Dimens.boxBorderRadius)),
     child: Column(
       children: [
         //! image
@@ -60,7 +60,7 @@ Widget trendCard({ProductModel? model}) {
               ),
               child: Center(
                   child: Text(
-                "${calculatePercentOff(double.parse(model.salePrice!), double.parse(model.regularPrice!)).toInt().toString()}%",
+                "${calculateOffPercent(double.parse(model.salePrice!), double.parse(model.regularPrice!)).toInt().toString()}%",
                 style: TextStyles.cardBargen,
               )),
             ),

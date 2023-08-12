@@ -69,7 +69,6 @@ class CartListScreen extends StatelessWidget {
                                   MaterialPageRoute(builder: (contex) {
                                 return ProductsListScreen(
                                   title: "محصولات تمدونی",
-                                  args: args,
                                 );
                               }));
                             },

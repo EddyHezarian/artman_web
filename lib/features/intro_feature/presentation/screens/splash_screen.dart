@@ -111,7 +111,6 @@ Future<void> goToHome(
     tagApiProvider.getTags().then((value) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return MainWrapper(
-          tags: value,
         );
       }));
     });

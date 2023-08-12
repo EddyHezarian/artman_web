@@ -1,178 +1,111 @@
 import 'dart:async';
 import 'package:artman_web/config/conststants/text_consts.dart';
+import 'package:artman_web/config/extensions/extention.dart';
 import 'package:artman_web/config/theme/color_pallet.dart'; //! need update
-import 'package:artman_web/config/theme/text_styles.dart';
 import 'package:artman_web/config/widgets/search_box.dart';
 import 'package:artman_web/core/models/image_model.dart';
 import 'package:artman_web/core/models/tag_model.dart';
 import 'package:artman_web/features/category_feature/data/model/category_model.dart';
 import 'package:artman_web/features/category_feature/data/remote_data/category_api_providers.dart';
 import 'package:artman_web/features/home_feature/presentation/widgets/event_card.dart';
-import 'package:artman_web/features/home_feature/presentation/widgets/trend_card.dart';
 import 'package:artman_web/features/product_list_feature/data/remote_data/product_api_provider.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/product_list_screen.dart';
 import 'package:artman_web/features/product_list_feature/presentation/screens/single_product_screen.dart';
 import 'package:artman_web/locator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../../product_list_feature/data/models/product_model.dart';
+import '../widgets/header_banner_widgets.dart';
+import '../widgets/product_list_homepage.dart';
 
 class HomeScreen extends StatefulWidget {
-  final List<TagModel>? tags;
-  const HomeScreen({super.key, this.tags});
-
+  const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final pageViewController = PageController(initialPage: 0);
-  Timer? _timer;
-  int _currentPage = 0;
+  Timer? _timerForBannerimage;
+  int _currentBannerPage = 0;
   CategoryApiProvider? categoryApiProvider;
-  ProductApiProvider? productApiProvider;
   List<TagModel> tagsList = [];
-  PageController controller = PageController();
-
+  PageController bannerImageController = PageController();
+//life cycles
   @override
   void initState() {
-    productApiProvider = locator<ProductApiProvider>();
-    categoryApiProvider = locator<CategoryApiProvider>();
     super.initState();
+    categoryApiProvider = locator<CategoryApiProvider>();
   }
 
   @override
   void dispose() {
-    if (_timer != null) {
-      _timer!.cancel();
+    //memory managment
+    if (_timerForBannerimage != null) {
+      _timerForBannerimage!.cancel();
     }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _timer ??= Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < bannerList.length - 1) {
-        _currentPage++;
+    //! timer config
+    _timerForBannerimage ??=
+        Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (_currentBannerPage < bannerList.length - 1) {
+        _currentBannerPage++;
       } else {
-        _currentPage = 0;
+        _currentBannerPage = 0;
       }
       if (pageViewController.positions.isNotEmpty) {
         pageViewController.animateToPage(
-          _currentPage,
+          _currentBannerPage,
           duration: const Duration(milliseconds: 350),
           curve: Curves.easeIn,
         );
       }
     });
+    //* UI
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorPallet.background,
+        backgroundColor: ColorPallet.backGround,
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              //! search container  ------------------------------------------------
-              searchBox(context, widget.tags),
-              const SizedBox(
-                height: 20,
-              ),
-              //! baner -------------------------------------------------
-              SizedBox(
-                height: 155,
-                child: PageView.builder(
-                  onPageChanged: (value) {},
-                  allowImplicitScrolling: true,
-                  controller: pageViewController,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: bannerList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 40, left: 32),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: CachedNetworkImage(
-                          repeat: ImageRepeat.noRepeat,
-                          errorWidget: (context, url, error) =>
-                              Shimmer.fromColors(
-                                  baseColor:
-                                      const Color.fromARGB(255, 223, 223, 223),
-                                  highlightColor:
-                                      const Color.fromARGB(255, 200, 199, 199),
-                                  child: Container(
-                                    height: 250,
-                                    width: 350,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  )),
-                          imageUrl: bannerList[index],
-                          useOldImageOnUrlChange: true,
-                          placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor:
-                                  const Color.fromARGB(255, 223, 223, 223),
-                              highlightColor:
-                                  const Color.fromARGB(255, 200, 199, 199),
-                              child: Container(
-                                height: 250,
-                                width: 350,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              )),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
+              //! search container  --------------------------------------------
+              searchBox(context),
+              20.0.sizedBoxheightExtention, 
+              //! baner --------------------------------------------------------
+              HomePageBanner(pageViewController: pageViewController),
+              8.0.sizedBoxheightExtention, 
               Center(
-                child: SmoothPageIndicator(
-                    effect: ExpandingDotsEffect(
-                        paintStyle: PaintingStyle.fill,
-                        dotWidth: 9,
-                        dotHeight: 3.4,
-                        dotColor: const Color(0xffd9d9d9),
-                        activeDotColor: ColorPallet.secondary),
-                    controller: pageViewController,
-                    count: bannerList.length),
+                child: BannerIndicator(pageViewController: pageViewController),
               ),
-              //! category icons-------------------------------
-              const SizedBox(
-                height: 37,
-              ),
+              //! category icons------------------------------------------------
+              37.0.sizedBoxheightExtention,
               Container(
                   margin: const EdgeInsets.only(right: 15, bottom: 10),
                   height: 78,
                   width: double.infinity,
                   child: homeCategoryShortcutList()),
-              //! amazing offer baneers --------------------------------
+              //! amazing offer baneers ----------------------------------------
               Container(
-                  //padding: const EdgeInsets.only(top: 17, bottom: 17),
                   margin: const EdgeInsets.only(bottom: 30),
                   width: double.infinity,
                   height: 280,
                   decoration: BoxDecoration(
-                    color: ColorPallet.secondary,
+                    color: ColorPallet.primary,
                   ),
                   child: Column(
                     children: [
                       //!cards
-                      Expanded(
-                          child: homeEventList(widget.tags![0].id.toString()))
+                      Expanded(child: homeEventList('25') //todo
+                          )
                     ],
                   )),
-              //! newest --------------------------------------------------------------------
+              //! newest products tag -------------------------------------------------------
               Container(
                   padding: const EdgeInsets.all(8),
                   margin: const EdgeInsets.only(right: 20, bottom: 14),
@@ -181,50 +114,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       //! texts
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //! title
-                          Text(
-                            TextConsts.trendings,
-                            style: TextStyles.offersTitle,
-                          ),
-                          //! see all
-                          InkWell(
-                            onTap: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ProductsListScreen(
-                                args: widget.tags,
-                                title: "پر فروش ترین ها",
-                                tag: "18",
-                              );
-                            })),
-                            child: Container(
-                              margin: const EdgeInsets.all(7),
-                              width: 90,
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    TextConsts.seeAll,
-                                    style: TextStyles.seeAll,
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_left,
-                                    size: 10,
-                                    color: ColorPallet.secondary,
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      const HomePageListTItleRow(
+                          title: TextConsts.trendings, tag: "26"),
                       //!cards
-                      Expanded(child: homeProductList("25")),
+                      Expanded(child: homeProductList("26")),
                     ],
                   )),
-              //! introduction container ----------------------------------------------------
+              //todo introduction container ----------------------------------------------------
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: SizedBox(
@@ -330,70 +226,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       //! texts
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          //! title
-                          Text(
-                            TextConsts.trendings,
-                            style: TextStyles.offersTitle,
-                          ),
-                          //! see all
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ProductsListScreen(
-                                  args: widget.tags,
-                                  title: "تازه ترین ها",
-                                  tag: "26",
-                                );
-                              }));
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(7),
-                              width: 90,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorPallet.secondary,
-                              ),
-                              child: Center(
-                                  child: Text(
-                                TextConsts.seeAll,
-                                style: TextStyles.seeAll,
-                              )),
-                            ),
-                          )
-                        ],
-                      ),
+                      const HomePageListTItleRow(
+                          title: TextConsts.newestOrders, tag: "25"),
                       //!cards
-                      Expanded(child: homeProductList("26")),
+                      Expanded(child: homeProductList("25")),
                     ],
                   )),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget homeProductList(String tag) {
-    return FutureBuilder(
-      future: productApiProvider!.getProducts(tagid: tag),
-      builder: (context, AsyncSnapshot<List<ProductModel>> model) {
-        if (model.hasData) {
-          return buildHomeCartList(model.data!); //widget
-        } else {
-          return Center(
-            //shimer
-            child: LoadingAnimationWidget.horizontalRotatingDots(
-              size: 40,
-              color: ColorPallet.secondary,
-            ),
-          );
-        }
-      },
     );
   }
 
@@ -420,7 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context) => ProductsListScreen(
                                       title: "${data.categoryName}",
                                       category: data.categoryId.toString(),
-                                      args: widget.tags,
                                     ))),
                         child: Container(
                             width: 90,
@@ -510,8 +351,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeEventList(String sku) {
+    ProductApiProvider productApiProvider = locator();
     return FutureBuilder(
-      future: productApiProvider!.getProducts(tagid: sku),
+      future: productApiProvider.getProducts(tagid: sku),
       initialData: [
         ProductModel(
             name: "test",
@@ -527,80 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return index == 0
-                    ? SizedBox(
-                        width: 165,
-                        child: Column(children: [
-                          //شگفت انگیز
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 4, top: 30),
-                            child: Image.asset(
-                              "assets/icons/Amazings.png",
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          // کاراکتر
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Image.asset(
-                              "assets/icons/boxamz.png",
-                              width: 86,
-                              height: 70,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          // دکمه
-                          InkWell(
-                            onTap: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return ProductsListScreen(
-                                args: widget.tags,
-                                title: "تازه ترین ها",
-                                tag: "26",
-                              );
-                            })),
-                            child: Container(
-                              width: 100,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(color: Colors.white),
-                                color: const Color(0x42ffffff),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  TextConsts.seeAll,
-                                  style: TextStyle(
-                                      fontFamily: "sens",
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w800,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          )
-
-                          // SlideCountdownSeparated(
-                          //   decoration: BoxDecoration(
-                          //       color: ColorPallet.background,
-                          //       borderRadius: BorderRadius.circular(8)),
-                          //   duration: const Duration(hours: 20),
-                          //   separator: ":",
-                          //   separatorStyle: const TextStyle(
-                          //       color: Colors.white,
-                          //       fontSize: 18,
-                          //       fontWeight: FontWeight.bold),
-                          //   height: 40,
-                          //   width: 27,
-                          //   curve: Curves.easeInOutCubic,
-                          //   textStyle: const TextStyle(
-                          //       color: Colors.black,
-                          //       fontFamily: "sens",
-                          //       fontWeight: FontWeight.bold),
-                          // ),
-                        ]),
-                      )
+                    ? const AmazingEventBanner()
                     : model.data!.isNotEmpty
                         ? InkWell(
                             onTap: () => Navigator.push(context,
@@ -610,23 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 })),
                             child: Center(child: eventCard(model.data![index])))
-                        : Container(
-                            width: 200,
-                            height: 190,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: ColorPallet.background),
-                            child: const Center(
-                              child: Text(
-                                "منتظر تخفیف های شگفت انگیز ما باشید",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontFamily: "sens",
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
+                        : errorBanner();
               }); //widget
         } else {
           //todo shimmer effect
@@ -641,27 +394,109 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildHomeCartList(List<ProductModel> data) {
-    return SizedBox(
-      height: 220,
-      child: ListView.builder(
-          itemCount: data.length,
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            var inc = data[index];
-            return InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return SingleProductScreen(
-                      args: widget.tags,
-                      model: inc,
-                    );
-                  }));
-                },
-                child: trendCard(model: inc));
-          }),
+  Container errorBanner() {
+    return Container(
+      width: 200,
+      height: 190,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: ColorPallet.background),
+      child: const Center(
+        child: Text(
+          "منتظر تخفیف های شگفت انگیز ما باشید",
+          style: TextStyle(
+              fontSize: 20, fontFamily: "sens", fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
+  }
+}
+
+class AmazingEventBanner extends StatelessWidget {
+  const AmazingEventBanner({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return amazingEventBanner(context);
+  }
+
+  SizedBox amazingEventBanner(BuildContext context) {
+    return SizedBox(
+    width: 165,
+    child: Column(children: [
+      //شگفت انگیز
+      Padding(
+        padding: const EdgeInsets.only(bottom: 4, top: 30),
+        child: Image.asset(
+          "assets/icons/Amazings.png",
+          width: 80,
+          height: 80,
+          fit: BoxFit.cover,
+        ),
+      ),
+      // کاراکتر
+      Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Image.asset(
+          "assets/icons/boxamz.png",
+          width: 86,
+          height: 70,
+          fit: BoxFit.cover,
+        ),
+      ),
+      // دکمه
+      InkWell(
+        onTap: () =>
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return ProductsListScreen(
+            title: "تازه ترین ها",
+            tag: "26",
+          );
+        })),
+        child: Container(
+          width: 100,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.white),
+            color: const Color(0x42ffffff),
+          ),
+          child: const Center(
+            child: Text(
+              TextConsts.seeAll,
+              style: TextStyle(
+                  fontFamily: "sens",
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white),
+            ),
+          ),
+        ),
+      )
+
+      // SlideCountdownSeparated(
+      //   decoration: BoxDecoration(
+      //       color: ColorPallet.background,
+      //       borderRadius: BorderRadius.circular(8)),
+      //   duration: const Duration(hours: 20),
+      //   separator: ":",
+      //   separatorStyle: const TextStyle(
+      //       color: Colors.white,
+      //       fontSize: 18,
+      //       fontWeight: FontWeight.bold),
+      //   height: 40,
+      //   width: 27,
+      //   curve: Curves.easeInOutCubic,
+      //   textStyle: const TextStyle(
+      //       color: Colors.black,
+      //       fontFamily: "sens",
+      //       fontWeight: FontWeight.bold),
+      // ),
+    ]),
+  );
   }
 }
 

@@ -23,10 +23,8 @@ import '../../data/remote_data/product_api_provider.dart';
 
 class SingleProductScreen extends StatelessWidget {
   final ProductModel model;
-  final List<TagModel>? args;
   const SingleProductScreen({
     Key? key,
-    this.args,
     required this.model,
   }) : super(key: key);
 
@@ -49,8 +47,7 @@ class SingleProductScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.pushAndRemoveUntil(context,
                               MaterialPageRoute(builder: (context) {
-                            return HomeScreen(
-                              tags: args,
+                            return const HomeScreen(
                             );
                           }), (route) => false);
                         },
@@ -271,7 +268,6 @@ class SingleProductScreen extends StatelessWidget {
                 model.releatedProducts!.length > 0
                     ? RelatedWidget(
                         productIDS: model.releatedProducts!,
-                        args: args,
                       )
                     : const SizedBox(),
               ],
@@ -422,7 +418,6 @@ class RelatedWidget extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return SingleProductScreen(
                       model: inc,
-                      args: args,
                     );
                   }));
                 },
